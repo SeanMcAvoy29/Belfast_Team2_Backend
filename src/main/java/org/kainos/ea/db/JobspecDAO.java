@@ -23,7 +23,7 @@ public class JobspecDAO {
                     rs.getInt("JobID"),
                     rs.getString("JobRoleName"),
                     rs.getString("Band"),
-                    rs.getString("Specifications"),
+                    rs.getString("Specification"),
                     rs.getString("Responsibilities")
             );
         }
