@@ -11,7 +11,7 @@ public class JobspecDAO {
 
     private DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    public Job getJobspec(int id) throws SQLException {
+    public Job getJobspecById(int id) throws SQLException {
 
         Connection c = databaseConnector.getConnection();
         Statement st = c.createStatement();
