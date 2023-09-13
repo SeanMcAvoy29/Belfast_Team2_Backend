@@ -32,8 +32,6 @@ public class DatabaseConnector {
             return conn;
         }catch (Exception e){
             System.err.println(e.getMessage());
-        }finally {
-            System.out.println("I will also run");
         }
         return null;
     }

@@ -1,4 +1,4 @@
-package org.kainos.ea.api;
+package org.kainos.ea.client;
 
 public class JobDoesNotExistException extends Throwable {
     @Override

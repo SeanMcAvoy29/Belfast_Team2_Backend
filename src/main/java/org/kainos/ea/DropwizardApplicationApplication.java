@@ -33,7 +33,6 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
     @Override
     public void run(final DropwizardApplicationConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
         environment.jersey().register(new JobspecController());
     }
 

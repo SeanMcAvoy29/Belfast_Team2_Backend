@@ -2,10 +2,7 @@ package org.kainos.ea.db;
 
 import org.kainos.ea.cli.Job;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class JobspecDAO {
 
@@ -14,9 +11,13 @@ public class JobspecDAO {
     public Job getJobspecById(int id) throws SQLException {
 
         Connection c = databaseConnector.getConnection();
-        Statement st = c.createStatement();
 
-        ResultSet rs = st.executeQuery("SELECT * FROM JobRole where JobID =" +id);
+        String selectStatement = "SELECT JobID, JobRoleName, Band, Specification, Responsibilities FROM JobRole where JobID = ?";
+
+        PreparedStatement st = c.prepareStatement(selectStatement);
+        st.setInt(1,id);
+
+        ResultSet rs = st.executeQuery();
 
         while(rs.next()){
             return new Job(
@@ -27,6 +28,7 @@ public class JobspecDAO {
                     rs.getString("Responsibilities")
             );
         }
+
         return null;
     }
 }

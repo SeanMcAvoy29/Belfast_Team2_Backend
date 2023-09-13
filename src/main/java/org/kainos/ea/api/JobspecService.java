@@ -2,6 +2,7 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.Job;
 import org.kainos.ea.client.FailedToGetJobSpecException;
+import org.kainos.ea.client.JobDoesNotExistException;
 import org.kainos.ea.db.JobspecDAO;
 
 import java.sql.SQLException;
