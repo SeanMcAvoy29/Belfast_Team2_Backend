@@ -2,7 +2,7 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.kainos.ea.client.JobDoesNotExistException;
-import org.kainos.ea.api.JobspecService;
+import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 
 import javax.ws.rs.GET;
@@ -14,9 +14,9 @@ import javax.ws.rs.core.Response;
 
 @Api("Belfast_Team2 Job Specification API")
 @Path("/api")
-public class JobspecController {
+public class JobSpecController {
 
-    private JobspecService jobspecService = new JobspecService();
+    private JobSpecService jobspecService = new JobSpecService();
     @GET
     @Path("/job-specification/{id}")
     @Produces(MediaType.APPLICATION_JSON)

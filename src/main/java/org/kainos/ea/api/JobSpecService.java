@@ -3,12 +3,12 @@ package org.kainos.ea.api;
 import org.kainos.ea.cli.Job;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobDoesNotExistException;
-import org.kainos.ea.db.JobspecDAO;
+import org.kainos.ea.db.JobSpecDAO;
 
 import java.sql.SQLException;
 
-public class JobspecService {
-    private JobspecDAO jobspecDAO = new JobspecDAO();
+public class JobSpecService {
+    final private JobSpecDAO jobspecDAO = new JobSpecDAO();
 
     public Job getJobspecById(int id) throws FailedToGetJobSpecException, JobDoesNotExistException {
         try{
