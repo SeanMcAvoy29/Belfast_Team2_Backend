@@ -1,7 +1,12 @@
 package org.kainos.ea.db;
 import org.kainos.ea.cli.JobRequest;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 public class jobDao {
     private DatabaseConnector databaseConnector = new DatabaseConnector();
@@ -9,7 +14,7 @@ public class jobDao {
     public int createJob(JobRequest job) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
-        String insertStatement = "INSERT INTO JobRole (JobRoleName, Band, Responsibilities, Specification) VALUES (?,?,?,?)";
+        String insertStatement = "INSERT INTO JobRole (JobRoleName, Band, Responsibilities, Specification) VALUES (?,?,?,?);";
 
         PreparedStatement st = c.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
 

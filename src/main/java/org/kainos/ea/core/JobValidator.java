@@ -1,5 +1,4 @@
 package org.kainos.ea.core;
-
 import org.kainos.ea.cli.JobRequest;
 
 public class JobValidator {
