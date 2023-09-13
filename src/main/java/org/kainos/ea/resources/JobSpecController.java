@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Belfast_Team2 Job Specification API")
+@Api("Belfast_Team2 API Job Specification")
 @Path("/api")
 public class JobSpecController {
 

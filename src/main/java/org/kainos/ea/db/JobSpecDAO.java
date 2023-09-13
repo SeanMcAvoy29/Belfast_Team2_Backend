@@ -1,6 +1,7 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.Job;
+import org.kainos.ea.cli.JobSpecRequest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,11 +13,11 @@ public class JobSpecDAO {
 
     private DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    public Job getJobspecById(int id) throws SQLException {
+    public JobSpecRequest getJobspecById(int id) throws SQLException {
 
         Connection c = databaseConnector.getConnection();
 
-        String selectStatement = "SELECT JobID, JobRoleName, Band, Specification, Responsibilities FROM JobRole where JobID = ?";
+        String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
@@ -24,12 +25,9 @@ public class JobSpecDAO {
         ResultSet rs = st.executeQuery();
 
         while(rs.next()){
-            return new Job(
-                    rs.getInt("JobID"),
+            return new JobSpecRequest(
                     rs.getString("JobRoleName"),
-                    rs.getString("Band"),
-                    rs.getString("Specification"),
-                    rs.getString("Responsibilities")
+                    rs.getString("Specification")
             );
         }
 
