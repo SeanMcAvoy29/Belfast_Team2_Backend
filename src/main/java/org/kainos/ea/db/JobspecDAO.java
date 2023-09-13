@@ -21,7 +21,7 @@ public class JobspecDAO {
         while(rs.next()){
             return new Job(
                     rs.getInt("JobID"),
-                    rs.getString("JobRole"),
+                    rs.getString("JobRoleName"),
                     rs.getString("Band"),
                     rs.getString("Specifications"),
                     rs.getString("Responsibilities")
