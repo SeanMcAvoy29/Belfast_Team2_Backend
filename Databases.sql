@@ -1,1 +1,1 @@
-create database Belfast_team2_MylesS;
+CREATE DATABASE Belfast_team2_MylesS;
