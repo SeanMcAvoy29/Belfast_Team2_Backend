@@ -17,7 +17,7 @@ public class JobSpecDAO {
 
         Connection c = databaseConnector.getConnection();
 
-        String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?";
+        String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?;";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
