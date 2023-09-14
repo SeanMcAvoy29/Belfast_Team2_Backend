@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class JobSpecDAO {
@@ -17,17 +20,21 @@ public class JobSpecDAO {
 
         Connection c = databaseConnector.getConnection();
 
-        String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?";
+        String selectStatement = "SELECT JobRoleName, Specification, Responsibilities FROM JobRole where JobID = ?";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
 
         ResultSet rs = st.executeQuery();
+        ArrayList<String> convertedResponsibilitiesList;
 
         while(rs.next()){
+           String responsibilities = rs.getString("Responsibilities");
+           convertedResponsibilitiesList = (ArrayList<String>) Arrays.asList(responsibilities.split(",", -1));
             return new JobSpecRequest(
                     rs.getString("JobRoleName"),
-                    rs.getString("Specification")
+                    rs.getString("Specification"),
+                    convertedResponsibilitiesList
             );
         }
 
