@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,11 +25,11 @@ public class JobSpecDAO {
         st.setInt(1,id);
 
         ResultSet rs = st.executeQuery();
-        ArrayList<String> convertedResponsibilitiesList;
+        List<String> convertedResponsibilitiesList;
 
         while(rs.next()){
            String responsibilities = rs.getString("Responsibilities");
-           convertedResponsibilitiesList = (ArrayList<String>) Arrays.asList(responsibilities.split(",", -1));
+           convertedResponsibilitiesList = Arrays.asList(responsibilities.split(",", -1));
             return new JobSpecRequest(
                     rs.getString("JobRoleName"),
                     rs.getString("Specification"),

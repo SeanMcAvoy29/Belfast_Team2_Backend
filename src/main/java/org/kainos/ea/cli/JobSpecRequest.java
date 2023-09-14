@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JobSpecRequest {
     private String jobRole;
     private String specifications;
-    private ArrayList<String> responsibilities;
+    private List<String> responsibilities;
 
     public String getJobRole() {
         return jobRole;
@@ -26,13 +27,14 @@ public class JobSpecRequest {
         this.specifications = specifications;
     }
 
-    public ArrayList<String> getResponsibilities() {
+    public List<String> getResponsibilities() {
         return responsibilities;
     }
 
-    public void setResponsibilities(ArrayList<String> responsibilities) {
+    public void setResponsibilities(List<String> responsibilities) {
         this.responsibilities = responsibilities;
     }
+
     //    public String getResponsibilities() {
 //        return responsibilities;
 //    }
@@ -45,7 +47,7 @@ public class JobSpecRequest {
     public JobSpecRequest(
             @JsonProperty("jobRole") String jobRole,
             @JsonProperty("specifications") String specifications,
-            @JsonProperty("responsibilities") ArrayList<String> responsibilities){
+            @JsonProperty("responsibilities") List<String> responsibilities){
         this.jobRole = jobRole;
         this.specifications = specifications;
         this.responsibilities = responsibilities;
