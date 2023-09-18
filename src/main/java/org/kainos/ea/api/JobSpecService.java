@@ -4,25 +4,33 @@ import org.kainos.ea.cli.Job;
 import org.kainos.ea.cli.JobSpecRequest;
 import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.client.JobDoesNotExistException;
+import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class JobSpecService {
-    final private JobSpecDAO jobspecDAO = new JobSpecDAO();
+    private JobSpecDAO jobspecDAO;
+    private final DatabaseConnector connector;
 
-    public JobSpecRequest getJobspecById(int id) throws FailedToGetJobSpecException, JobDoesNotExistException {
-        try{
-            JobSpecRequest jobspec = jobspecDAO.getJobspecById(id);
+    public JobSpecService(JobSpecDAO jobspecDAO, DatabaseConnector connector) {
+        this.jobspecDAO = jobspecDAO;
+        this.connector = connector;
+    }
 
-            if (jobspec == null){
-                throw new FailedToGetJobSpecException();
-            }
-            return jobspec;
-        }catch(SQLException e){
-            System.err.println(e.getMessage());
+
+
+
+
+    public JobSpecRequest getJobspecById(int id) throws SQLException, JobDoesNotExistException {
+
+        JobSpecRequest jobspec = jobspecDAO.getJobspecById(id,connector.getConnection());
+
+        if (jobspec == null){
             throw new JobDoesNotExistException();
         }
+        return jobspec;
     }
 }
 

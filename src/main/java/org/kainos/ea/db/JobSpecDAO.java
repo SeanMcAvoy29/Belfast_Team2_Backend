@@ -17,7 +17,7 @@ public class JobSpecDAO {
 
     public JobSpecRequest getJobspecById(int id) throws SQLException {
 
-        Connection c = databaseConnector.getConnection();
+    public JobSpecRequest getJobspecById(int id, Connection c) throws SQLException {
 
         String selectStatement = "SELECT JobRoleName, Specification, Responsibilities FROM JobRole where JobID = ?;";
 
