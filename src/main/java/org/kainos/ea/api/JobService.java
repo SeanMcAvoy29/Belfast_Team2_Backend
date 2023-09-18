@@ -62,7 +62,7 @@ public class JobService {
         }
     }
 
-    public void deleteJobRole (int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
+    public void deleteJobRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
         try {
             Job jobRoleToDelete = jobDao.getJobRoleByID(id);
 
@@ -78,5 +78,23 @@ public class JobService {
         }
     }
 
+    public void updateJob(int id, JobRequest job) throws InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
+        try {
+            String validation = jobValidator.isValidJob(job);
 
+            if (validation != null) {
+                throw new InvalidJobException(validation);
+            }
+            Job jobToUpdate = jobDao.getJobRoleByID(id);
+
+            if (jobToUpdate == null) {
+                throw new JobRoleDoesNotExistException();
+            }
+
+            jobDao.updateJobRole(id, job);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new FailedToUpdateJobRoleException();
+        }
+    }
 }

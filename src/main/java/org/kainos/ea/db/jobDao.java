@@ -79,6 +79,22 @@ public class jobDao {
         }
         return null;
     }
+
+    public void updateJobRole(int id, JobRequest job) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        String updateStatement = "UPDATE JobRole SET JobRoleName = ?, Band = ?, Responsibilities = ?, Specification = ? WHERE JobID = ?";
+
+        PreparedStatement st = c.prepareStatement(updateStatement);
+
+        st.setString(1, job.getJobRole());
+        st.setString(2, job.getBand());
+        st.setString(3, job.getResponsibilities());
+        st.setString(4, job.getSpecifications());
+        st.setInt(5, id);
+
+        st.executeUpdate();
+    }
     public void deleteJobRole(int id) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
