@@ -35,14 +35,6 @@ public class JobSpecRequest {
         this.responsibilities = responsibilities;
     }
 
-    //    public String getResponsibilities() {
-//        return responsibilities;
-//    }
-//
-//    public void setResponsibilities(String responsibilities) {
-//        this.responsibilities = responsibilities;
-//    }
-
     @JsonCreator
     public JobSpecRequest(
             @JsonProperty("jobRole") String jobRole,
