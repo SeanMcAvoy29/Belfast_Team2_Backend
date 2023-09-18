@@ -2,10 +2,8 @@ package org.kainos.ea.service;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.cli.JobSpecRequest;
-import org.kainos.ea.client.DatabaseConnectionException;
 import org.kainos.ea.client.JobDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
@@ -28,20 +26,20 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpec_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException {
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobspecById(10,conn)).thenThrow(SQLException.class);
+        Mockito.when(jobSpecDAO.getJobSpecById(10,conn)).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
-                () -> jobSpecService.getJobspecById(10));
+                () -> jobSpecService.getJobSpecById(10));
     }
 
     @Test
     void getJobSpec_shouldReturnJobDoesNotExistException_whenDaoReturnsJobDoesNotExistException () throws SQLException{
         int id = 1;
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobspecById(1,conn)).thenReturn(null);
+        Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(null);
 
         assertThrows(JobDoesNotExistException.class,
-                () -> jobSpecService.getJobspecById(id));
+                () -> jobSpecService.getJobSpecById(id));
     }
 
     @Test
@@ -49,12 +47,10 @@ public class JobSpecServiceTest {
 
         JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec");
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobspecById(1,conn)).thenReturn(expectResult);
+        Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
 
-        JobSpecRequest result = jobSpecService.getJobspecById(1);
+        JobSpecRequest result = jobSpecService.getJobSpecById(1);
         assertEquals(expectResult.getJobRole(), result.getJobRole());
         assertEquals(expectResult.getSpecifications(), result.getSpecifications());
     }
-
-
 }

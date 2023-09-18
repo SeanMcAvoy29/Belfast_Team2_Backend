@@ -14,7 +14,7 @@ public class DatabaseConnector {
 
         if(conn != null && !conn.isClosed()) { return conn; }
 
-        try( FileInputStream propsStream = new FileInputStream("db.properties");){
+        try(FileInputStream propsStream = new FileInputStream("db.properties")){
             Properties props = new Properties();
 
             props.load(propsStream);

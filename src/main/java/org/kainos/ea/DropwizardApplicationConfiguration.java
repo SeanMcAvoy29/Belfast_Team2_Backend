@@ -19,5 +19,4 @@ public class DropwizardApplicationConfiguration extends Configuration {
         swagger.setSchemes(schemes);
         return swagger;
     }
-
 }
