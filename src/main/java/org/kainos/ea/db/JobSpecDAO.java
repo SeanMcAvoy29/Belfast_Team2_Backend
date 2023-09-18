@@ -11,11 +11,10 @@ import java.sql.SQLException;
 
 public class JobSpecDAO {
 
-    private DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    public JobSpecRequest getJobspecById(int id) throws SQLException {
 
-        Connection c = databaseConnector.getConnection();
+    public JobSpecRequest getJobspecById(int id, Connection c) throws SQLException {
+
 
         String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?;";
 

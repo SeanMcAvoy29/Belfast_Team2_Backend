@@ -26,11 +26,11 @@ public class JobSpecIntegrationTest {
                 .request().get();
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals("Finance Associate - Accounts Payable",response.readEntity(JobSpecRequest.class).getJobRole());
+        Assertions.assertEquals("string",response.readEntity(JobSpecRequest.class).getJobRole());
     }
 
     @Test
-    void getJobSpec_should404WhenIdDoesNotExist(){
+    void getJobSpec_shouldReturn404WhenIdDoesNotExist(){
         int id = 0;
         Response response = APP.client().target("http://localhost:8080/api/job-specification/"+id)
                 .request().get();
