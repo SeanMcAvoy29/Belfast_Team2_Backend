@@ -55,9 +55,9 @@ public class JobController {
     @GET
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getJobRoleByID(@PathParam("id") int id, Connection c) {
+    public Response getJobRoleByID(@PathParam("id") int id) {
         try {
-            return Response.ok(jobService.getJobRoleByID(id, c)).build();
+            return Response.ok(jobService.getJobRoleByID(id)).build();
         } catch (FailedToGetJobRolesException e) {
             System.err.println(e.getMessage());
 
@@ -72,9 +72,9 @@ public class JobController {
     @DELETE
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteJobRole(@PathParam("id") int id, Connection c) {
+    public Response deleteJobRole(@PathParam("id") int id) {
         try {
-            jobService.deleteJobRole(id, c);
+            jobService.deleteJobRole(id);
 
             return Response.ok().build();
         } catch (JobRoleDoesNotExistException e) {
@@ -91,9 +91,9 @@ public class JobController {
     @PUT
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateJobRole(@PathParam("id") int id, Connection c, JobRequest job) {
+    public Response updateJobRole(@PathParam("id") int id, JobRequest job) {
         try {
-            jobService.updateJob(id, c, job);
+            jobService.updateJob(id, job);
 
             return Response.ok().build();
         } catch (InvalidJobException | JobRoleDoesNotExistException e) {

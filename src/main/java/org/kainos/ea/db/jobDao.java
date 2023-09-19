@@ -60,7 +60,8 @@ public class jobDao {
         return jobRoleList;
     }
 
-    public Job getJobRoleByID(int id, Connection c) throws SQLException {
+    public Job getJobRoleByID(int id) throws SQLException {
+        Connection c = databaseConnector.getConnection();
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT JobID, JobRoleName, Band, Responsibilities, Specification" +
@@ -68,13 +69,15 @@ public class jobDao {
 
 
         while (rs.next()) {
-            return new Job(
+            Job jobRole = new Job(
                     rs.getInt("JobID"),
                     rs.getString("JobRoleName"),
                     rs.getString("Band"),
                     rs.getString("Responsibilities"),
                     rs.getString("Specification")
             );
+            jobRole.setJobID(id);
+            return jobRole;
         }
         return null;
     }

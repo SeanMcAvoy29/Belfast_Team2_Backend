@@ -31,21 +31,10 @@ public class JobService {
             int id = jobDao.createJob(job);
 
             return id;
-        } catch (SQLException e) {
+        } catch (SQLException | JobRoleTooLongException | BandLengthTooLongException | SpecificationsTooLongException |
+                 ResponsibilitiesTooLongException | JobRoleDoesNotExistException | FailedToUpdateJobRoleException e) {
             System.err.println(e.getMessage());
 
-        } catch (BandLengthTooLongException e) {
-            throw new RuntimeException(e);
-        } catch (JobRoleTooLongException e) {
-            throw new RuntimeException(e);
-        } catch (FailedToUpdateJobRoleException e) {
-            throw new RuntimeException(e);
-        } catch (ResponsibilitiesTooLongException e) {
-            throw new RuntimeException(e);
-        } catch (JobRoleDoesNotExistException e) {
-            throw new RuntimeException(e);
-        } catch (SpecificationsTooLongException e) {
-            throw new RuntimeException(e);
         }
         return -1;
     }
@@ -62,9 +51,9 @@ public class JobService {
         }
     }
 
-    public Job getJobRoleByID(int id, Connection c) throws FailedToGetJobRolesException, JobRoleDoesNotExistException {
+    public Job getJobRoleByID(int id) throws FailedToGetJobRolesException, JobRoleDoesNotExistException {
         try {
-            Job jobRole = jobDao.getJobRoleByID(id, c);
+            Job jobRole = jobDao.getJobRoleByID(id);
 
             if (jobRole == null) {
                 throw new JobRoleDoesNotExistException();
@@ -78,9 +67,9 @@ public class JobService {
         }
     }
 
-    public void deleteJobRole(int id, Connection c) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
+    public void deleteJobRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
         try {
-            Job jobRoleToDelete = jobDao.getJobRoleByID(id, c);
+            Job jobRoleToDelete = jobDao.getJobRoleByID(id);
 
             if (jobRoleToDelete == null) {
                 throw new JobRoleDoesNotExistException();
@@ -94,9 +83,9 @@ public class JobService {
         }
     }
 
-    public void updateJob(int id, Connection c, JobRequest job) throws InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
+    public void updateJob(int id, JobRequest job) throws InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
         try {
-            Job jobToUpdate = jobDao.getJobRoleByID(id, c);
+            Job jobToUpdate = jobDao.getJobRoleByID(id);
 
             if (jobToUpdate == null) {
                 throw new JobRoleDoesNotExistException();
