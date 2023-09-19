@@ -1,11 +1,13 @@
 package org.kainos.ea.db;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.kainos.ea.cli.Login;
 import org.kainos.ea.cli.Role;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import java.security.Key;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
@@ -20,7 +22,7 @@ public class AuthDao {
         try (Connection c = databaseConnector.getConnection()) {
             Statement st = c.createStatement();
 
-            String sql = "SELECT Password FROM `User` WHERE Username = ?;";
+            String sql = "SELECT Password FROM `User` WHERE Email = ?;";
 
             PreparedStatement preparedStatement = c.prepareStatement(sql);
 
@@ -37,34 +39,11 @@ public class AuthDao {
         return false;
     }
 
-    public String generateToken(String email) throws SQLException {
-        String token = generateJwtToken(email);
-
-        return token;
-    }
-
-    public String generateJwtToken(String email) throws SQLException {
-        String token = UUID.randomUUID().toString();
-        Date expiry = DateUtils.addHours(new Date(), 8);
-
-        Connection c = databaseConnector.getConnection();
-
-        String insertStatement = "INSERT INTO Token(Username, Token, Expiry) Values (?,?,?);";
-
-        PreparedStatement st = c.prepareStatement(insertStatement);
-
-        st.setString(1, email);
-        st.setString(2, token);
-        st.setTimestamp(3, new Timestamp(expiry.getTime()));
-
-        st.executeUpdate();
-        return token;
-    }
 
     public void register(String email, String password, Role roleID) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
-        PreparedStatement ps = c.prepareStatement("INSERT INTO `User` (Username, Password, RoleID) VALUES (?, ?, ?);");
+        PreparedStatement ps = c.prepareStatement("INSERT INTO `User` (Email, Password, RoleID) VALUES (?, ?, ?);");
 
         ps.setString(1, email);
         ps.setString(2, password);
@@ -75,7 +54,7 @@ public class AuthDao {
 
     public String getHashedPassword(String email) {
         try (Connection c = databaseConnector.getConnection()) {
-            String sql = "SELECT Password FROM `User` WHERE Username = ?;";
+            String sql = "SELECT Password FROM `User` WHERE Email = ?;";
 
             PreparedStatement preparedStatement = c.prepareStatement(sql);
             preparedStatement.setString(1, email);
@@ -91,12 +70,25 @@ public class AuthDao {
         return null;
     }
 
-    public void setTokenCookie(HttpServletResponse response, String token) {
-        Cookie cookie = new Cookie("jwtToken", token);
-        cookie.setPath("/");
-        cookie.setMaxAge(3600);
-        response.addCookie(cookie);
 
+    public String generateJwtToken(String email) throws SQLException {
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        Date expiry = DateUtils.addHours(new Date(), 8);
+
+        String token = Jwts.builder().setSubject(email).setExpiration(expiry).signWith(key).compact();
+
+        Connection c = databaseConnector.getConnection();
+
+        String insertStatement = "INSERT INTO Token(Email, Token, Expiry) Values (?,?,?);";
+
+        PreparedStatement st = c.prepareStatement(insertStatement);
+
+        st.setString(1, email);
+        st.setString(2, token);
+        st.setTimestamp(3, new Timestamp(expiry.getTime()));
+
+        st.executeUpdate();
+
+        return token;
     }
 }
-
