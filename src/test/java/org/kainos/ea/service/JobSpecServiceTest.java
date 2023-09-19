@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,7 +47,12 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpec_shouldReturnJobSpec_whenDaoReturnsJobSpec () throws SQLException, JobDoesNotExistException {
 
-        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec");
+        List<String> responsibilities = new ArrayList<>();
+        responsibilities.add("Coding");
+        responsibilities.add("Testing");
+        responsibilities.add("Git");
+
+        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec",responsibilities);
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
         Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
 
