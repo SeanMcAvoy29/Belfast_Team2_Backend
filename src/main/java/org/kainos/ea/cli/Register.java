@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Register {
-    private String username;
+    private String email;
     private String password;
     private Role role;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -34,11 +34,11 @@ public class Register {
 
     @JsonCreator
     public Register(
-            @JsonProperty("username") String username,
+            @JsonProperty("email") String email,
             @JsonProperty("password") String password,
             @JsonProperty("role") Role role
     ) {
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
