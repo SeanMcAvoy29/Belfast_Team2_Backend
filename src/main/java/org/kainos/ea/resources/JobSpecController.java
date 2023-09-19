@@ -3,7 +3,6 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.client.JobDoesNotExistException;
 import org.kainos.ea.api.JobSpecService;
-import org.kainos.ea.client.FailedToGetJobSpecException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
 
@@ -28,9 +27,9 @@ public class JobSpecController {
     @GET
     @Path("/job-specification/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProductsById(@PathParam("id")int id){
+    public Response getJobSpecById(@PathParam("id")int id){
         try{
-            return Response.ok(jobspecService.getJobspecById(id)).build();
+            return Response.ok(jobspecService.getJobSpecById(id)).build();
         }catch(JobDoesNotExistException e){
             System.err.println(e.getMessage());
             return Response.status(Response.Status.NOT_FOUND).build();

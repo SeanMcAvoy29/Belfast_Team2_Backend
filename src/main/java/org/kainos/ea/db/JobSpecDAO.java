@@ -1,5 +1,6 @@
 package org.kainos.ea.db;
 
+import org.kainos.ea.cli.Job;
 import org.kainos.ea.cli.JobSpecRequest;
 
 import java.sql.Connection;
@@ -12,9 +13,7 @@ import java.util.List;
 
 public class JobSpecDAO {
 
-    private DatabaseConnector databaseConnector = new DatabaseConnector();
-
-    public JobSpecRequest getJobspecById(int id, Connection c) throws SQLException {
+    public JobSpecRequest getJobSpecById(int id, Connection c) throws SQLException {
 
         String selectStatement = "SELECT JobRoleName, Specification, Responsibilities FROM JobRole where JobID = ?;";
 

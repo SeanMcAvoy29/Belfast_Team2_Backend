@@ -45,5 +45,3 @@ public class JobSpecRequest {
         this.responsibilities = responsibilities;
     }
 }
-
-
