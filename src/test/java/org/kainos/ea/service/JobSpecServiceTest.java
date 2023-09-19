@@ -59,5 +59,6 @@ public class JobSpecServiceTest {
         JobSpecRequest result = jobSpecService.getJobSpecById(1);
         assertEquals(expectResult.getJobRole(), result.getJobRole());
         assertEquals(expectResult.getSpecifications(), result.getSpecifications());
+        assertEquals(expectResult.getResponsibilities(), result.getResponsibilities());
     }
 }

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 @Path("/api")
 public class JobSpecController {
 
-    private JobSpecService jobspecService;
+    private final JobSpecService jobspecService;
 
     public JobSpecController(){
         DatabaseConnector connector = new DatabaseConnector();
