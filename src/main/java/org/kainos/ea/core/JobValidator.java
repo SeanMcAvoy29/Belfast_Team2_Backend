@@ -1,22 +1,23 @@
 package org.kainos.ea.core;
 import org.kainos.ea.cli.JobRequest;
+import org.kainos.ea.client.*;
 
 public class JobValidator {
-    public String isValidJob (JobRequest job) {
+    public String isValidJob (JobRequest job) throws JobRoleTooLongException, BandLengthTooLongException, SpecificationsTooLongException, ResponsibilitiesTooLongException, InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
         if (job.getJobRole().length() > 60) {
-            return "JobRole exceeds 60 characters";
+            throw new JobRoleTooLongException();
         }
 
         if (job.getBand().length() > 100) {
-            return "Band exceeds 100 characters.";
+            throw new BandLengthTooLongException();
         }
 
         if (job.getSpecifications().length() > 100) {
-            return "Specifications exceeds 100 characters.";
+            throw new SpecificationsTooLongException();
         }
 
         if (job.getResponsibilities().length() > 100) {
-            return "Responsibilities exceeds 100 characters.";
+            throw new ResponsibilitiesTooLongException();
         }
         return null;
     }

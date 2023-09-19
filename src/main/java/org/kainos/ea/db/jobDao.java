@@ -60,8 +60,7 @@ public class jobDao {
         return jobRoleList;
     }
 
-    public Job getJobRoleByID(int id) throws SQLException {
-        Connection c = databaseConnector.getConnection();
+    public Job getJobRoleByID(int id, Connection c) throws SQLException {
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT JobID, JobRoleName, Band, Responsibilities, Specification" +

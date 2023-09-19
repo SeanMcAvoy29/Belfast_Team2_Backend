@@ -4,15 +4,23 @@ import io.swagger.annotations.Api;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
+import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.jobDao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.Connection;
 
 @Api("Belfast_Team2 API")
 @Path("/api")
 public class JobController {
-    private final JobService jobService = new JobService();
+    private final JobService jobService;
+
+    public JobController() {
+        DatabaseConnector connector = new DatabaseConnector();
+        jobService = new JobService(new jobDao(), connector);
+    }
 
     @POST
     @Path("/job")
@@ -47,9 +55,9 @@ public class JobController {
     @GET
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getJobRoleByID(@PathParam("id") int id) {
+    public Response getJobRoleByID(@PathParam("id") int id, Connection c) {
         try {
-            return Response.ok(jobService.getJobRoleByID(id)).build();
+            return Response.ok(jobService.getJobRoleByID(id, c)).build();
         } catch (FailedToGetJobRolesException e) {
             System.err.println(e.getMessage());
 
@@ -64,9 +72,9 @@ public class JobController {
     @DELETE
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteJobRole(@PathParam("id") int id) {
+    public Response deleteJobRole(@PathParam("id") int id, Connection c) {
         try {
-            jobService.deleteJobRole(id);
+            jobService.deleteJobRole(id, c);
 
             return Response.ok().build();
         } catch (JobRoleDoesNotExistException e) {
@@ -83,9 +91,9 @@ public class JobController {
     @PUT
     @Path("/job-roles/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateJobRole(@PathParam("id") int id, JobRequest job) {
+    public Response updateJobRole(@PathParam("id") int id, Connection c, JobRequest job) {
         try {
-            jobService.updateJob(id, job);
+            jobService.updateJob(id, c, job);
 
             return Response.ok().build();
         } catch (InvalidJobException | JobRoleDoesNotExistException e) {
