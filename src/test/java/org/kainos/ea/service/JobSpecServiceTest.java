@@ -52,13 +52,14 @@ public class JobSpecServiceTest {
         responsibilities.add("Testing");
         responsibilities.add("Git");
 
-        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec",responsibilities);
+        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec",responsibilities,"https://Linktest.com");
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
         Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
 
         JobSpecRequest result = jobSpecService.getJobSpecById(1);
         assertEquals(expectResult.getJobRole(), result.getJobRole());
         assertEquals(expectResult.getSpecifications(), result.getSpecifications());
+        assertEquals(expectResult.getSharePointLink(), result.getSharePointLink());
         assertEquals(expectResult.getResponsibilities(), result.getResponsibilities());
     }
 }

@@ -9,6 +9,15 @@ public class JobSpecRequest {
     private String jobRole;
     private String specifications;
     private List<String> responsibilities;
+    private String sharePointLink;
+
+    public String getSharePointLink() {
+        return sharePointLink;
+    }
+
+    public void setSharePointLink(String sharePointLink) {
+        this.sharePointLink = sharePointLink;
+    }
 
     public String getJobRole() {
         return jobRole;
@@ -38,9 +47,11 @@ public class JobSpecRequest {
     public JobSpecRequest(
             @JsonProperty("jobRole") String jobRole,
             @JsonProperty("specifications") String specifications,
-            @JsonProperty("responsibilities") List<String> responsibilities){
+            @JsonProperty("responsibilities") List<String> responsibilities,
+            @JsonProperty("sharePointLink") String sharePointLink){
         this.jobRole = jobRole;
         this.specifications = specifications;
         this.responsibilities = responsibilities;
+        this.sharePointLink = sharePointLink;
     }
 }

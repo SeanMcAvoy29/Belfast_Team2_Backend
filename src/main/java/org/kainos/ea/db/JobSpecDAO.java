@@ -1,6 +1,5 @@
 package org.kainos.ea.db;
 
-import org.kainos.ea.cli.Job;
 import org.kainos.ea.cli.JobSpecRequest;
 
 import java.sql.Connection;
@@ -15,7 +14,8 @@ public class JobSpecDAO {
 
     public JobSpecRequest getJobSpecById(int id, Connection c) throws SQLException {
 
-        String selectStatement = "SELECT JobRoleName, Specification, Responsibilities FROM JobRole where JobID = ?;";
+
+        String selectStatement = "SELECT JobRoleName, Specification, Responsibilities, SharePointLink FROM JobRole where JobID = ?;";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
@@ -28,6 +28,8 @@ public class JobSpecDAO {
            convertedResponsibilitiesList = Arrays.asList(responsibilities.split(",", -1));
             return new JobSpecRequest(
                     rs.getString("JobRoleName"),
+                    rs.getString("Specification"),
+                    rs.getString("SharePointLink"),
                     rs.getString("Specification"),
                     convertedResponsibilitiesList
             );
