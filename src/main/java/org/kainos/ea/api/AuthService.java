@@ -10,15 +10,27 @@ import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.client.FailedToLoginException;
 import org.kainos.ea.client.FailedToRegisterException;
 import org.kainos.ea.db.AuthDao;
+import org.kainos.ea.core.LoginValidator;
+import org.kainos.ea.core.RegisterValidator;
 
 import javax.crypto.SecretKeyFactory;
 import java.security.Security;
 import java.sql.SQLException;
 
 public class AuthService {
+
     private AuthDao authDao = new AuthDao();
+    private LoginValidator loginValidator = new LoginValidator();
+    private RegisterValidator registerValidator = new RegisterValidator();
+
 
     public String login (Login login) throws FailedToLoginException, FailedToGenerateTokenException {
+
+        String validationError = loginValidator.isValidLogin(login);
+        if (validationError != null) {
+            throw new FailedToLoginException(validationError);
+        }
+
         String storedHashedPassword = authDao.getHashedPassword(login.getEmail());
 
         if(verifyPassword(login.getPassword(), storedHashedPassword)) {
@@ -28,6 +40,10 @@ public class AuthService {
     }
 
     public void register(Register register) throws FailedToRegisterException {
+        String validationError = registerValidator.isValidRegister(register);
+        if (validationError != null) {
+            throw new FailedToRegisterException(validationError);
+        }
 
         try {
             String hashedPassword = hashPassword(register.getPassword());
