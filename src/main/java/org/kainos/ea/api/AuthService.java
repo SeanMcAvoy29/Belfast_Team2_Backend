@@ -19,16 +19,10 @@ public class AuthService {
     private AuthDao authDao = new AuthDao();
 
     public String login (Login login) throws FailedToLoginException, FailedToGenerateTokenException {
-        // Retrieve the hashed password from the database for the given username
         String storedHashedPassword = authDao.getHashedPassword(login.getEmail());
 
-        // Verify the entered password with the stored hashed password
         if(verifyPassword(login.getPassword(), storedHashedPassword)) {
-            try{
-                return authDao.generateJwtToken((login.getEmail()));
-            }catch (SQLException e){
-                throw new FailedToGenerateTokenException();
-            }
+            return authDao.generateJwtToken((login.getEmail()));
         }
         throw new FailedToLoginException();
     }
