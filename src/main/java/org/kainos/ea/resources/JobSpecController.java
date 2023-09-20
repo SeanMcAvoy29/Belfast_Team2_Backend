@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Api("Belfast_Team2 API Job Specification")
+@Api("Belfast_Team2 API")
 @Path("/api")
 public class JobSpecController {
 
@@ -20,13 +20,13 @@ public class JobSpecController {
     @GET
     @Path("/job-specification/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProductsById(@PathParam("id")int id){
-        try{
+    public Response getJobSpecByJobID(@PathParam("id")int id){
+        try {
             return Response.ok(jobspecService.getJobspecById(id)).build();
-        }catch(FailedToGetJobSpecException e){
+        } catch(FailedToGetJobSpecException e){
             System.err.println(e.getMessage());
             return Response.status(Response.Status.NOT_FOUND).build();
-        }catch (JobDoesNotExistException e){
+        } catch (JobDoesNotExistException e){
             System.err.println(e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
