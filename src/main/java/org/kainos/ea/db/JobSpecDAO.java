@@ -29,9 +29,8 @@ public class JobSpecDAO {
             return new JobSpecRequest(
                     rs.getString("JobRoleName"),
                     rs.getString("Specification"),
-                    rs.getString("SharePointLink"),
-                    rs.getString("Specification"),
-                    convertedResponsibilitiesList
+                    convertedResponsibilitiesList,
+                    rs.getString("SharePointLink")
             );
         }
 
