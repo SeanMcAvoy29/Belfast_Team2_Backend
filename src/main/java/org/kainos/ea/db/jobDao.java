@@ -1,6 +1,10 @@
 package org.kainos.ea.db;
 import org.kainos.ea.cli.Job;
 import org.kainos.ea.cli.JobRequest;
+import org.kainos.ea.client.DatabaseConnectionException;
+import org.kainos.ea.client.FailedToGetJobRolesException;
+import org.kainos.ea.client.InvalidJobException;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,33 +16,33 @@ import java.util.List;
 
 
 public class jobDao {
-    private DatabaseConnector databaseConnector = new DatabaseConnector();
-
-    public int createJob(JobRequest job) throws SQLException {
-        Connection c = databaseConnector.getConnection();
-
+    public int createJob(JobRequest job, Connection connector) throws SQLException {
         String insertStatement = "INSERT INTO JobRole (JobRoleName, Band, Responsibilities, Specification) VALUES (?,?,?,?);";
-
-        PreparedStatement st = c.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement st = connector.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
 
         st.setString(1, job.getJobRole());
         st.setString(2, job.getBand());
         st.setString(3, job.getSpecifications());
         st.setString(4, job.getResponsibilities());
 
-        st.executeUpdate();
+        int affectedRows = st.executeUpdate();
 
-        ResultSet rs = st.getGeneratedKeys();
-
-        if (rs.next()) {
-            return rs.getInt(1);
+        if (affectedRows == 0) {
+            throw new SQLException("Creating user failed, no rows affected.");
         }
 
-        return -1;
+        int empNo = 0;
+
+        try (ResultSet rs = st.getGeneratedKeys()) {
+            if (rs.next()) {
+                empNo = rs.getInt(1);
+            }
+        }
+
+        return empNo;
     }
 
-    public List<Job> getAllJobRoles() throws SQLException {
-        Connection c = databaseConnector.getConnection();
+    public List<Job> getAllJobRoles(Connection c) throws SQLException, FailedToGetJobRolesException {
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT JobID, JobRoleName, Band, Responsibilities, Specification FROM JobRole;");
@@ -53,15 +57,14 @@ public class jobDao {
                     rs.getString("Responsibilities"),
                     rs.getString("Specification")
             );
-
+            jobRole.setJobID(rs.getInt("JobID"));
             jobRoleList.add(jobRole);
 
         }
         return jobRoleList;
     }
 
-    public Job getJobRoleByID(int id) throws SQLException {
-        Connection c = databaseConnector.getConnection();
+    public Job getJobRoleByID(int id, Connection c) throws SQLException, JobRoleDoesNotExistException, DatabaseConnectionException {
         Statement st = c.createStatement();
 
         ResultSet rs = st.executeQuery("SELECT JobID, JobRoleName, Band, Responsibilities, Specification" +
@@ -82,8 +85,7 @@ public class jobDao {
         return null;
     }
 
-    public void updateJobRole(int id, JobRequest job) throws SQLException {
-        Connection c = databaseConnector.getConnection();
+    public Job updateJobRole(int id, JobRequest job, Connection c) throws SQLException, DatabaseConnectionException {
 
         String updateStatement = "UPDATE JobRole SET JobRoleName = ?, Band = ?, Responsibilities = ?, Specification = ? WHERE JobID = ?";
 
@@ -96,9 +98,10 @@ public class jobDao {
         st.setInt(5, id);
 
         st.executeUpdate();
+
+        return null;
     }
-    public void deleteJobRole(int id) throws SQLException {
-        Connection c = databaseConnector.getConnection();
+    public Job deleteJobRole(int id, Connection c) throws SQLException {
 
         String deleteStatement = "DELETE FROM JobRole WHERE JobID = ?";
 
@@ -106,5 +109,7 @@ public class jobDao {
         st.setInt(1, id);
 
         st.executeUpdate();
+
+        return null;
     }
 }

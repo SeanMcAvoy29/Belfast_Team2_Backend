@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JobService {
     private jobDao jobDao;
-    private final DatabaseConnector connector;
+    public DatabaseConnector connector;
     private JobValidator jobValidator = new JobValidator();
 
     public JobService(org.kainos.ea.db.jobDao jobDao, DatabaseConnector connector) {
@@ -21,79 +21,23 @@ public class JobService {
         this.connector = connector;
     }
 
-    public int createJob(JobRequest job) throws FailedToCreateJobException, InvalidJobException {
-        try {
-            String validation = jobValidator.isValidJob(job);
-
-            if (validation != null) {
-                throw new InvalidJobException(validation);
-            }
-            int id = jobDao.createJob(job);
-
-            return id;
-        } catch (SQLException | JobRoleTooLongException | BandLengthTooLongException | SpecificationsTooLongException |
-                 ResponsibilitiesTooLongException | JobRoleDoesNotExistException | FailedToUpdateJobRoleException e) {
-            System.err.println(e.getMessage());
-
-        }
-        return -1;
+    public int createJob(JobRequest jobRequest) throws DatabaseConnectionException, SQLException {
+        return jobDao.createJob(jobRequest, connector.getConnection());
     }
 
-    public List<Job> getAllJobRoles() throws FailedToGetJobRolesException {
-        try {
-            List<Job> jobRoleList = jobDao.getAllJobRoles();
-
-            return jobRoleList;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-
-            throw new FailedToGetJobRolesException();
-        }
+    public List<Job> getAllJobRoles() throws DatabaseConnectionException, SQLException, FailedToGetJobRolesException {
+        return jobDao.getAllJobRoles(connector.getConnection());
     }
 
-    public Job getJobRoleByID(int id) throws FailedToGetJobRolesException, JobRoleDoesNotExistException {
-        try {
-            Job jobRole = jobDao.getJobRoleByID(id);
-
-            if (jobRole == null) {
-                throw new JobRoleDoesNotExistException();
-            }
-
-            return jobRole;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-
-            throw new FailedToGetJobRolesException();
-        }
+    public Job getJobRoleByID(int id) throws SQLException, DatabaseConnectionException, JobRoleDoesNotExistException {
+        return jobDao.getJobRoleByID(id, connector.getConnection());
     }
 
-    public void deleteJobRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException {
-        try {
-            Job jobRoleToDelete = jobDao.getJobRoleByID(id);
-
-            if (jobRoleToDelete == null) {
-                throw new JobRoleDoesNotExistException();
-            }
-
-            jobDao.deleteJobRole(id);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-
-            throw new FailedToDeleteJobRoleException();
-        }
+    public Job deleteJobRole(int id) throws JobRoleDoesNotExistException, FailedToDeleteJobRoleException, DatabaseConnectionException, SQLException {
+        return jobDao.deleteJobRole(id, connector.getConnection());
     }
 
-    public void updateJob(int id, JobRequest job) throws InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
-        try {
-            Job jobToUpdate = jobDao.getJobRoleByID(id);
-
-            if (jobToUpdate == null) {
-                throw new JobRoleDoesNotExistException();
-            }
-            jobDao.updateJobRole(id, job);
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            throw new FailedToUpdateJobRoleException();
-        }
+    public Job updateJobRole(int id, JobRequest job) throws InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException, DatabaseConnectionException, SQLException {
+        return jobDao.updateJobRole(id, job, connector.getConnection());
     }
 }

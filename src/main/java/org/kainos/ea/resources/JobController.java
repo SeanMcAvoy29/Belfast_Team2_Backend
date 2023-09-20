@@ -1,9 +1,11 @@
 package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
+import org.eclipse.jetty.http.HttpStatus;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
+import org.kainos.ea.core.JobValidator;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.jobDao;
 
@@ -11,31 +13,34 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 @Api("Belfast_Team2 API")
 @Path("/api")
 public class JobController {
-    private final JobService jobService;
+    private static JobService jobService;
+    private static JobValidator jobValidator;
 
     public JobController() {
         DatabaseConnector connector = new DatabaseConnector();
         jobService = new JobService(new jobDao(), connector);
+        jobValidator = new JobValidator();
     }
 
     @POST
     @Path("/job")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createJob(JobRequest job) {
-        try {
-            return Response.ok(jobService.createJob(job)).build();
-        } catch (FailedToCreateJobException e) {
-            System.err.println(e.getMessage());
-
-            return Response.serverError().build();
-        } catch (InvalidJobException e) {
-            System.err.println(e.getMessage());
-
-            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+    public Response createJob(JobRequest job) throws SpecificationTooLongException, JobRoleTooLongException, ResponsibilitiesTooLongException, BandNameTooLongException {
+        if (jobValidator.isValidJob(job)) {
+            try {
+                int id = jobService.createJob(job);
+                return Response.status(HttpStatus.CREATED_201).entity(id).build();
+            } catch (Exception e) {
+                System.out.println(e);
+                return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
+            }
+        } else {
+            return Response.status(HttpStatus.BAD_REQUEST_400).build();
         }
     }
 
@@ -45,10 +50,11 @@ public class JobController {
     public Response getJobRoles() {
         try {
             return Response.ok(jobService.getAllJobRoles()).build();
+        } catch (SQLException | DatabaseConnectionException e) {
+            System.out.println(e);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
         } catch (FailedToGetJobRolesException e) {
-            System.err.println(e.getMessage());
-
-            return Response.serverError().build();
+            throw new RuntimeException(e);
         }
     }
 
@@ -58,14 +64,11 @@ public class JobController {
     public Response getJobRoleByID(@PathParam("id") int id) {
         try {
             return Response.ok(jobService.getJobRoleByID(id)).build();
-        } catch (FailedToGetJobRolesException e) {
-            System.err.println(e.getMessage());
-
-            return Response.serverError().build();
+        } catch (SQLException | DatabaseConnectionException e) {
+            System.out.println(e);
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
         } catch (JobRoleDoesNotExistException e) {
-            System.err.println(e.getMessage());
-
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            throw new RuntimeException(e);
         }
     }
 
@@ -77,7 +80,7 @@ public class JobController {
             jobService.deleteJobRole(id);
 
             return Response.ok().build();
-        } catch (JobRoleDoesNotExistException e) {
+        } catch (JobRoleDoesNotExistException | DatabaseConnectionException | SQLException e) {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
@@ -93,14 +96,14 @@ public class JobController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateJobRole(@PathParam("id") int id, JobRequest job) {
         try {
-            jobService.updateJob(id, job);
+            jobService.updateJobRole(id, job);
 
             return Response.ok().build();
         } catch (InvalidJobException | JobRoleDoesNotExistException e) {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
-        } catch (FailedToUpdateJobRoleException e) {
+        } catch (FailedToUpdateJobRoleException | DatabaseConnectionException | SQLException e) {
             System.err.println(e.getMessage());
 
             return Response.serverError().build();

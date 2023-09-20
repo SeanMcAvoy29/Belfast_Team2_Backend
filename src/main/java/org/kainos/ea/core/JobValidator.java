@@ -3,22 +3,19 @@ import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
 
 public class JobValidator {
-    public String isValidJob (JobRequest job) throws JobRoleTooLongException, BandLengthTooLongException, SpecificationsTooLongException, ResponsibilitiesTooLongException, InvalidJobException, JobRoleDoesNotExistException, FailedToUpdateJobRoleException {
-        if (job.getJobRole().length() > 60) {
+    public boolean isValidJob (JobRequest jobRequest) throws JobRoleTooLongException, BandNameTooLongException, SpecificationTooLongException, ResponsibilitiesTooLongException {
+        if (jobRequest.getJobRole().length() > 60) {
             throw new JobRoleTooLongException();
         }
-
-        if (job.getBand().length() > 100) {
-            throw new BandLengthTooLongException();
+        if (jobRequest.getBand().length() > 100) {
+            throw new BandNameTooLongException();
         }
-
-        if (job.getSpecifications().length() > 100) {
-            throw new SpecificationsTooLongException();
+        if (jobRequest.getSpecifications().length() > 100) {
+            throw new SpecificationTooLongException();
         }
-
-        if (job.getResponsibilities().length() > 100) {
+        if (jobRequest.getResponsibilities().length() > 100) {
             throw new ResponsibilitiesTooLongException();
         }
-        return null;
+        return true;
     }
 }
