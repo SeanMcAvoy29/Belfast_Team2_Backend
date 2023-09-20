@@ -26,7 +26,7 @@ public class JobSpecIntegrationTest {
                 .request().get();
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals("string",response.readEntity(JobSpecRequest.class).getJobRole());
+        Assertions.assertEquals("Job Role Name",response.readEntity(JobSpecRequest.class).getJobRole());
     }
 
     @Test

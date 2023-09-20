@@ -45,7 +45,7 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpec_shouldReturnJobSpec_whenDaoReturnsJobSpec () throws SQLException, JobDoesNotExistException {
 
-        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec");
+        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec","Test");
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
         Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
 

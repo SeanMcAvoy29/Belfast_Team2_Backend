@@ -13,7 +13,7 @@ public class JobSpecDAO {
     public JobSpecRequest getJobSpecById(int id, Connection c) throws SQLException {
 
 
-        String selectStatement = "SELECT JobRoleName, Specification FROM JobRole where JobID = ?;";
+        String selectStatement = "SELECT JobRoleName, Specification, SharePointLink FROM JobRole where JobID = ?;";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
@@ -23,7 +23,8 @@ public class JobSpecDAO {
         while(rs.next()){
             return new JobSpecRequest(
                     rs.getString("JobRoleName"),
-                    rs.getString("Specification")
+                    rs.getString("Specification"),
+                    rs.getString("SharePointLink")
             );
         }
 
