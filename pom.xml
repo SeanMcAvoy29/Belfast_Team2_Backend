@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.kainos.ea</groupId>
-    <artifactId>Team2_Belfast API</artifactId>
+    <artifactId>Team2_Belfast_API</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
