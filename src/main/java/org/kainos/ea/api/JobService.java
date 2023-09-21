@@ -1,47 +1,25 @@
 package org.kainos.ea.api;
 
 import org.kainos.ea.cli.Job;
-import org.kainos.ea.client.FailedToGetJobException;
-import org.kainos.ea.core.JobValidator;
-import org.kainos.ea.cli.JobRequest;
-import org.kainos.ea.client.FailedToCreateJobException;
-import org.kainos.ea.client.InvalidJobException;
+import org.kainos.ea.client.DatabaseConnectionException;
+import org.kainos.ea.client.FailedToGetJobRolesException;
+import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.jobDao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class JobService {
-    private jobDao jobDao = new jobDao();
-    private JobValidator jobValidator = new JobValidator();
+    public DatabaseConnector connector;
 
-    public int createJob(JobRequest job) throws FailedToCreateJobException, InvalidJobException {
-        try {
-            String validation = jobValidator.isValidJob(job);
-
-            if (validation != null) {
-                throw new InvalidJobException(validation);
-            }
-            int id = jobDao.createJob(job);
-
-            return id;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-
-        }
-        return -1;
+    public JobService(org.kainos.ea.db.jobDao jobDao, DatabaseConnector connector) {
+        this.jobDao = jobDao;
+        this.connector = connector;
     }
 
-    public List<Job> getAllJobs() throws FailedToGetJobException {
-        try {
-            List<Job> jobList = jobDao.getAllJobs();
-
-            return jobList;
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-
-            throw new FailedToGetJobException();
-        }
+    private jobDao jobDao;
+    public List<Job> getAllJobRoles() throws DatabaseConnectionException, SQLException, FailedToGetJobRolesException {
+        return jobDao.getAllJobRoles(connector.getConnection());
     }
 
 }
