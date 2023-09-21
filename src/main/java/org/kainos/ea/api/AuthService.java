@@ -2,31 +2,33 @@ package org.kainos.ea.api;
 
 import com.password4j.Hash;
 import com.password4j.Password;
-import com.password4j.types.Argon2;
-import org.eclipse.jetty.util.security.Credential;
 import org.kainos.ea.cli.Login;
 import org.kainos.ea.cli.Register;
 import org.kainos.ea.client.FailedToGenerateTokenException;
 import org.kainos.ea.client.FailedToLoginException;
 import org.kainos.ea.client.FailedToRegisterException;
+import org.kainos.ea.core.Validator;
 import org.kainos.ea.db.AuthDao;
-import org.kainos.ea.core.LoginValidator;
-import org.kainos.ea.core.RegisterValidator;
 
-import javax.crypto.SecretKeyFactory;
-import java.security.Security;
 import java.sql.SQLException;
 
 public class AuthService {
 
     private AuthDao authDao = new AuthDao();
-    private LoginValidator loginValidator = new LoginValidator();
-    private RegisterValidator registerValidator = new RegisterValidator();
+    private Validator validator = new Validator();
+    public AuthService(AuthDao authDao, Validator validator) {
+        this.authDao = authDao;
+        this.validator = validator;
+    }
+
+    public AuthService() {
+
+    }
 
 
     public String login (Login login) throws FailedToLoginException, FailedToGenerateTokenException {
 
-        String validationError = loginValidator.isValidLogin(login);
+        String validationError = validator.isValidLogin(login);
         if (validationError != null) {
             throw new FailedToLoginException(validationError);
         }
@@ -40,7 +42,7 @@ public class AuthService {
     }
 
     public void register(Register register) throws FailedToRegisterException {
-        String validationError = registerValidator.isValidRegister(register);
+        String validationError = validator.isValidLogin(register);
         if (validationError != null) {
             throw new FailedToRegisterException(validationError);
         }
@@ -56,7 +58,6 @@ public class AuthService {
 
     private String hashPassword(String password) {
         Hash hash = Password.hash(password).addRandomSalt().withArgon2();
-        System.out.println(hash.getResult());
         return hash.getResult();
     }
 

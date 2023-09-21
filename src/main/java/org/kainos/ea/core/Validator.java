@@ -2,7 +2,7 @@ package org.kainos.ea.core;
 
 import org.kainos.ea.cli.Login;
 
-public class LoginValidator {
+public class Validator {
 
     public String isValidLogin(Login login) {
 

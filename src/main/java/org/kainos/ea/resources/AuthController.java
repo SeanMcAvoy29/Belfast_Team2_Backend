@@ -50,6 +50,9 @@ public class AuthController {
             System.err.println(e.getMessage());
 
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }  catch (Exception e) {
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
         }
     }
 }
