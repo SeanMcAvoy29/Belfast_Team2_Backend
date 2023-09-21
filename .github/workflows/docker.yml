@@ -32,7 +32,7 @@ jobs:
           DB_NAME: ${{ secrets.name }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: employee_demo
-          IMAGE_TAG: belfast-team-2-api
+          IMAGE_TAG: belfast-2-team-api
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
