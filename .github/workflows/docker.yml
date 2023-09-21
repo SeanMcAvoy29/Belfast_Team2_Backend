@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main, 036-Deploy-API-to-AWS ]
+    branches: [ main ]
 
 jobs:
 
