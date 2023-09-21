@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
-import org.kainos.ea.cli.JobSpecRequest;
+import org.kainos.ea.cli.JobSpecResponse;
 
 import javax.ws.rs.core.Response;
 
@@ -28,7 +28,7 @@ public class JobSpecIntegrationTest {
 
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals("Job Role Name",response.readEntity(JobSpecRequest.class).getJobRole());
+        Assertions.assertEquals("Job Role Name",response.readEntity(JobSpecResponse.class).getJobRole());
     }
 
     @Test
@@ -39,7 +39,7 @@ public class JobSpecIntegrationTest {
 
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals(expectedLink,response.readEntity(JobSpecRequest.class).getSharePointLink());
+        Assertions.assertEquals(expectedLink,response.readEntity(JobSpecResponse.class).getSharePointLink());
     }
 
     @Test
