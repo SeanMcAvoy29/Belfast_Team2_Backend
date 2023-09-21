@@ -4,9 +4,8 @@ import io.swagger.annotations.Api;
 import org.eclipse.jetty.http.HttpStatus;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.client.DatabaseConnectionException;
-import org.kainos.ea.client.FailedToGetJobRolesException;
 import org.kainos.ea.db.DatabaseConnector;
-import org.kainos.ea.db.jobDao;
+import org.kainos.ea.db.JobDao;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,7 +21,7 @@ public class JobController {
 
     public JobController() {
         DatabaseConnector connector = new DatabaseConnector();
-        jobService = new JobService(new jobDao(), connector);
+        jobService = new JobService(new JobDao(), connector);
     }
 
     @GET
@@ -32,10 +31,7 @@ public class JobController {
         try {
             return Response.ok(jobService.getAllJobRoles()).build();
         } catch (SQLException | DatabaseConnectionException e) {
-            System.out.println(e);
             return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
-        } catch (FailedToGetJobRolesException e) {
-            throw new RuntimeException(e);
         }
     }
         }
