@@ -1,5 +1,10 @@
 package org.kainos.ea.db;
 
+<<<<<<< HEAD
+=======
+import org.kainos.ea.client.DatabaseConnectionException;
+
+>>>>>>> US-Unit-Testing
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,12 +14,14 @@ import java.util.Properties;
 public class DatabaseConnector {
     private static Connection conn;
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException, DatabaseConnectionException {
+
         String user, password, host, name;
 
         if(conn != null && !conn.isClosed()) { return conn; }
 
-        try( FileInputStream propsStream = new FileInputStream("db.properties");){
+        try(FileInputStream propsStream = new FileInputStream("db.properties");){
+
             Properties props = new Properties();
 
             props.load(propsStream);
@@ -32,8 +39,14 @@ public class DatabaseConnector {
             return conn;
         }catch (Exception e){
             System.err.println(e.getMessage());
+<<<<<<< HEAD
         }
         return null;
     }
 
+=======
+            throw new DatabaseConnectionException();
+        }
+    }
+>>>>>>> US-Unit-Testing
 }
