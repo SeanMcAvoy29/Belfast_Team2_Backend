@@ -23,8 +23,9 @@ public class JobDao {
                     rs.getInt("JobID"),
                     rs.getString("JobRoleName"),
                     rs.getString("Band"),
-                    rs.getString("Responsibilities"),
-                    rs.getString("Specification")
+                    rs.getString("Specification"),
+                    rs.getString("Responsibilities")
+
             );
             jobRole.setJobID(rs.getInt("JobID"));
             jobRoleList.add(jobRole);
