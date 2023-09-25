@@ -23,7 +23,6 @@ public class JobController {
         DatabaseConnector connector = new DatabaseConnector();
         jobService = new JobService(new JobDao(), connector);
     }
-
     @GET
     @Path("/job-roles")
     @Produces(MediaType.APPLICATION_JSON)
