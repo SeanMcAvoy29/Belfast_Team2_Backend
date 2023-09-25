@@ -1,5 +1,6 @@
 package org.kainos.ea.db;
 
+
 import org.kainos.ea.client.DatabaseConnectionException;
 
 import java.io.FileInputStream;
@@ -16,7 +17,7 @@ public class DatabaseConnector {
 
         if(conn != null && !conn.isClosed()) { return conn; }
 
-        try(FileInputStream propsStream = new FileInputStream("db.properties");){
+        try(FileInputStream propsStream = new FileInputStream("db.properties")){
             Properties props = new Properties();
 
             props.load(propsStream);
@@ -36,5 +37,7 @@ public class DatabaseConnector {
             System.err.println(e.getMessage());
             throw new DatabaseConnectionException();
         }
+
     }
+
 }

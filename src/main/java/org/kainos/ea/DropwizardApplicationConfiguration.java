@@ -1,6 +1,5 @@
 package org.kainos.ea;
 
-
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
@@ -16,9 +15,8 @@ public class DropwizardApplicationConfiguration extends Configuration {
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration getSwagger(){
         swagger.setResourcePackage("org.kainos.ea.resources");
-        String[] schemes ={"http", "https"};
+        String[] schemes = {"http","https"};
         swagger.setSchemes(schemes);
         return swagger;
     }
-
 }
