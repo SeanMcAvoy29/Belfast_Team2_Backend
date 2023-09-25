@@ -18,7 +18,7 @@ public class AuthDao {
 
     private DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    public void register(String email, String password, Role roleID) throws SQLException {
+    public int register(String email, String password, Role roleID) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         PreparedStatement ps = c.prepareStatement("INSERT INTO `User` (Email, Password, RoleID) VALUES (?, ?, ?);");
@@ -28,6 +28,14 @@ public class AuthDao {
         ps.setInt(3, roleID.getRole());
 
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+
+        if(rs.next()){
+            return rs.getInt(1);
+        }
+
+        return -1;
     }
 
     public String getHashedPassword(String email) {

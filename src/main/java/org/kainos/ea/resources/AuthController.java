@@ -45,13 +45,10 @@ public class AuthController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response validRegister(Register register) {
         try {
-            authService.register(register);
-
-            return Response.ok().build();
+            return Response.ok(authService.register(register)).build();
 
         } catch (FailedToRegisterException e) {
             System.err.println(e.getMessage());
-
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         } catch (SQLException e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
