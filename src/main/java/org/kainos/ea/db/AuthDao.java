@@ -54,4 +54,6 @@ public class AuthDao {
         String jws = Jwts.builder().setSubject(email).signWith(key).compact();
         return jws;
     }
+
+
 }

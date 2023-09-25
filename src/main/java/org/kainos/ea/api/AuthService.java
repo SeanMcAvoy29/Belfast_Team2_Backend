@@ -14,17 +14,12 @@ import java.sql.SQLException;
 
 public class AuthService {
 
-    private AuthDao authDao = new AuthDao();
-    private Validator validator = new Validator();
+    private AuthDao authDao;
+    private Validator validator;
     public AuthService(AuthDao authDao, Validator validator) {
         this.authDao = authDao;
         this.validator = validator;
     }
-
-    public AuthService() {
-
-    }
-
 
     public String login (Login login) throws FailedToLoginException, FailedToGenerateTokenException {
 
@@ -41,19 +36,14 @@ public class AuthService {
         throw new FailedToLoginException();
     }
 
-    public void register(Register register) throws FailedToRegisterException {
+    public void register(Register register) throws FailedToRegisterException, SQLException {
         String validationError = validator.isValidLogin(register);
         if (validationError != null) {
             throw new FailedToRegisterException(validationError);
         }
 
-        try {
-            String hashedPassword = hashPassword(register.getPassword());
-            authDao.register(register.getEmail(), hashedPassword, register.getRole());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new FailedToRegisterException();
-        }
+        String hashedPassword = hashPassword(register.getPassword());
+        authDao.register(register.getEmail(), hashedPassword, register.getRole());
     }
 
     private String hashPassword(String password) {
@@ -61,7 +51,7 @@ public class AuthService {
         return hash.getResult();
     }
 
-    public boolean verifyPassword(String password, String hashedPassword) {
-        return Password.check(password, hashedPassword).withArgon2();
+        public boolean verifyPassword (String password, String hashedPassword){
+            return Password.check(password, hashedPassword).withArgon2();
+        }
     }
-}
