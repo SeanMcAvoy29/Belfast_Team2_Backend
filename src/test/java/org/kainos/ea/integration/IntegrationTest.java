@@ -25,31 +25,36 @@ public class IntegrationTest {
             new ResourceConfigurationSourceProvider()
     );
     @Test
-    void postRegister_shouldReturn200OnSuccess() {
-        Register register = new Register("test@example.com", "password123", Admin);
+    void postRegister_shouldReturn200nSuccess() {
+        Register register = new Register("test12345@example.com", "password123", Admin);
         Response response = APP.client().target("http://localhost:8080/api/register")
                 .request()
                 .post(Entity.entity(register, MediaType.APPLICATION_JSON_TYPE));
 
-        assertEquals(200, response.getStatus());
-    }
-    @Test
-    void postLogin_shouldReturnToken() {
-        Login login = new Login("test@example.com", "password123");
-        String token = APP.client().target("http://localhost:8080/api/login")
-                .request()
-                .post(Entity.entity(login, MediaType.APPLICATION_JSON_TYPE))
-                .readEntity(String.class);
+        String token = response.readEntity(String.class);
 
+        assertEquals(200, response.getStatus());
         assertNotNull(token);
     }
+
     @Test
-    void postLogin_shouldReturn400OnFailedLogin() {
+    void postLogin_shouldReturn400nFailedLogin() {
         Login login = new Login("test@example.com", "wrongpassword");
         Response response = APP.client().target("http://localhost:8080/api/login")
                 .request()
                 .post(Entity.entity(login, MediaType.APPLICATION_JSON_TYPE));
 
         assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    void postRegister_shouldReturn500errWhenDupEmailUsed() {
+        String email = System.getenv("ADMIN_EMAIL");
+        Register register = new Register(email, "Fake password", Admin);
+        Response response = APP.client().target("http://localhost:8080/api/register")
+                .request()
+                .post(Entity.entity(register, MediaType.APPLICATION_JSON_TYPE));
+
+        assertEquals(500, response.getStatus());
     }
 }
