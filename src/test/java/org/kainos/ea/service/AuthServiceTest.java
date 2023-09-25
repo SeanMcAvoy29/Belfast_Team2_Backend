@@ -11,8 +11,6 @@ import org.kainos.ea.client.FailedToLoginException;
 import org.kainos.ea.client.FailedToRegisterException;
 import org.kainos.ea.core.Validator;
 import org.kainos.ea.db.AuthDao;
-
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -60,5 +58,12 @@ public class AuthServiceTest {
         verify(authDao, times(1)).register(anyString(), anyString(), any(Role.class));
     }
 
+    @Test
+    void register_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException {
+        Register register = new Register("fake@example.com", "fakePassword", Role.Admin);
+
+        doThrow(new SQLException()).when(authDao).register(anyString(), anyString(), any(Role.class));
+        assertThrows(SQLException.class, () -> authService.register(register));
+    }
 }
 

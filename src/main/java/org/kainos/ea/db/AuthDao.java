@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.time.DateUtils;
 import org.kainos.ea.cli.Login;
 import org.kainos.ea.cli.Role;
+import org.kainos.ea.client.FailedToRegisterException;
 
 import java.security.Key;
 import java.sql.Connection;
@@ -18,7 +19,7 @@ public class AuthDao {
 
     private DatabaseConnector databaseConnector = new DatabaseConnector();
 
-    public int register(String email, String password, Role roleID) throws SQLException {
+    public void register(String email, String password, Role roleID) throws SQLException {
         Connection c = databaseConnector.getConnection();
 
         PreparedStatement ps = c.prepareStatement("INSERT INTO `User` (Email, Password, RoleID) VALUES (?, ?, ?);");
@@ -28,14 +29,6 @@ public class AuthDao {
         ps.setInt(3, roleID.getRole());
 
         ps.executeUpdate();
-
-        ResultSet rs = ps.getGeneratedKeys();
-
-        if(rs.next()){
-            return rs.getInt(1);
-        }
-
-        return -1;
     }
 
     public String getHashedPassword(String email) {

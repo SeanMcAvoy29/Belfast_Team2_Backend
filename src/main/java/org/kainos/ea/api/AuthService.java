@@ -36,25 +36,14 @@ public class AuthService {
         throw new FailedToLoginException();
     }
 
-    public int register(Register register) throws FailedToRegisterException, SQLException {
-        try{
-            String validationError = validator.isValidLogin(register);
-            if (validationError != null) {
-                throw new FailedToRegisterException(validationError);
-            }
-            String hashedPassword = hashPassword(register.getPassword());
-            int id = authDao.register(register.getEmail(), hashedPassword, register.getRole());
-
-            if(id == -1){
-                throw new FailedToRegisterException();
-            }
-
-            return id;
-
-        }catch (SQLException e){
-            System.err.println(e.getMessage());
-            throw new FailedToRegisterException();
+    public void register(Register register) throws FailedToRegisterException, SQLException {
+        String validationError = validator.isValidLogin(register);
+        if (validationError != null) {
+            throw new FailedToRegisterException(validationError);
         }
+
+        String hashedPassword = hashPassword(register.getPassword());
+        authDao.register(register.getEmail(), hashedPassword, register.getRole());
     }
 
     private String hashPassword(String password) {
