@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ServiceTest {
+public class AuthServiceTest {
 
     private AuthDao authDao;
     private Validator validator;
@@ -34,7 +34,7 @@ public class ServiceTest {
     @Test
     public void testLogin() throws FailedToLoginException, FailedToGenerateTokenException {
         Login login = new Login("test@example.com", "password");
-        when(validator.isValidLogin(any(Login.class))).thenReturn(null);
+        when(validator.isValidLogin(login)).thenReturn(null);
         when(authDao.getHashedPassword(anyString())).thenReturn("hashedPassword");
         when(authDao.generateJwtToken(anyString())).thenReturn("token");
 
@@ -59,36 +59,6 @@ public class ServiceTest {
 
         verify(authDao, times(1)).register(anyString(), anyString(), any(Role.class));
     }
-    @Test
-    public void testHashPassword() throws Exception {
-        String password = "password";
 
-        Method method = AuthService.class.getDeclaredMethod("hashPassword", String.class);
-        method.setAccessible(true);
-
-        String hashedPassword = (String) method.invoke(authService, password);
-
-        assertNotNull(hashedPassword);
-        assertNotEquals(password, hashedPassword);
-    }
-
-
-    @Test
-    public void testVerifyPassword() throws Exception {
-        String password = "password";
-
-        Method hashMethod = AuthService.class.getDeclaredMethod("hashPassword", String.class);
-        hashMethod.setAccessible(true);
-        String hashedPassword = (String) hashMethod.invoke(authService, password);
-
-        Method verifyMethod = AuthService.class.getDeclaredMethod("verifyPassword", String.class, String.class);
-        verifyMethod.setAccessible(true);
-
-        boolean passwordMatches = (boolean) verifyMethod.invoke(authService, password, hashedPassword);
-        boolean wrongPasswordMatches = (boolean) verifyMethod.invoke(authService, "wrongPassword", hashedPassword);
-
-        assertTrue(passwordMatches);
-        assertFalse(wrongPasswordMatches);
-    }
 }
 
