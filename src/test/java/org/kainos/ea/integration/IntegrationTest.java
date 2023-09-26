@@ -62,7 +62,7 @@ public class IntegrationTest {
     @Test
     void postLogin_shouldReturn400nFailedLogin() {
         String email = System.getenv("ADMIN_EMAIL");
-        Login login = new Login(email, "wrongpassword");
+        Login login = new Login("test@test.com", "wrongpassword");
         Response response = APP.client().target("http://localhost:8080/api/login")
                 .request()
                 .post(Entity.entity(login, MediaType.APPLICATION_JSON_TYPE));

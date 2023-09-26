@@ -33,7 +33,7 @@ public class AuthService {
         if(verifyPassword(login.getPassword(), storedHashedPassword)) {
             return authDao.generateJwtToken((login.getEmail()));
         }
-        throw new FailedToLoginException();
+        throw new FailedToGenerateTokenException();
     }
 
     public void register(Register register) throws FailedToRegisterException, SQLException {

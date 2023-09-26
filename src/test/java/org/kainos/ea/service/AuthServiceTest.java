@@ -46,6 +46,32 @@ public class AuthServiceTest {
         verify(authDao, times(1)).generateJwtToken(anyString());
     }
 
+    @Test
+    public void login_ShouldThrowFailedToLogin() {
+        Login login = new Login("example.com", "pass123456");
+        when(validator.isValidLogin(login)).thenReturn("Email must contain an '@' symbol");
+
+        AuthService authServiceSpy = spy(authService);
+        doReturn(false).when(authServiceSpy).verifyPassword(anyString(), anyString());
+
+        assertThrows(FailedToLoginException.class, () -> authService.login(login));
+    }
+
+    @Test
+    public void login_ShouldThrowFailedToGenerateTokenException() throws FailedToGenerateTokenException, FailedToLoginException {
+        Login login = new Login("test@example.com", "FakePassword");
+        when(validator.isValidLogin(login)).thenReturn(null);
+        when(authDao.getHashedPassword(anyString())).thenReturn("hashedPassword");
+        when(authDao.generateJwtToken(anyString())).thenReturn("token");
+
+        AuthService authServiceSpy = spy(authService);
+        doReturn(false).when(authServiceSpy).verifyPassword(anyString(), anyString());
+
+        assertThrows(FailedToGenerateTokenException.class, () -> authServiceSpy.login(login));
+    }
+
+
+
 
     @Test
     public void testRegister() throws SQLException, FailedToRegisterException {
@@ -65,5 +91,18 @@ public class AuthServiceTest {
         doThrow(new SQLException()).when(authDao).register(anyString(), anyString(), any(Role.class));
         assertThrows(SQLException.class, () -> authService.register(register));
     }
+
+    @Test
+    public void register_ShouldThrowFailedToRegisterException() {
+        Register register = new Register("fakeExample.com", "fakePassword", Role.Admin);
+        when(validator.isValidLogin(register)).thenReturn("Email must contain an '@' symbol");
+
+        AuthService authServiceSpy = spy(authService);
+        doReturn(false).when(authServiceSpy).verifyPassword(anyString(), anyString());
+
+        assertThrows(FailedToRegisterException.class, () -> authService.register(register));
+    }
+
+
 }
 
