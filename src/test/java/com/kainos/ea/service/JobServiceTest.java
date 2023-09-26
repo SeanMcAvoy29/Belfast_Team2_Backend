@@ -4,8 +4,9 @@ import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.cli.JobRequest;
-import org.kainos.ea.client.DatabaseConnectionException;
+import org.kainos.ea.client.*;
 import org.kainos.ea.db.DatabaseConnector;
+import org.kainos.ea.db.JobDao;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -17,24 +18,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class JobServiceTest {
-    org.kainos.ea.db.JobDao JobDao = Mockito.mock(org.kainos.ea.db.JobDao.class);
+    JobDao jobDao = Mockito.mock(JobDao.class);
     DatabaseConnector databaseConnector = Mockito.mock(DatabaseConnector.class);
-    JobService jobService = new JobService(JobDao, databaseConnector);
+    JobService jobService = new JobService(jobDao, databaseConnector);
     JobRequest jobRequest = new JobRequest(
-            5,
             "EmployeeTest",
-            "FullTime",
-            "Please Work",
-            "PLEASE WORK"
+            1,
+            "Placement Employee",
+            "Coding",
+            "Test",
+            2
     );
 
     Connection conn;
 
     @Test
-    public void createJob_shouldReturnJobNumber_whenDaoCreatesJob() throws SQLException, DatabaseConnectionException {
+    public void createJob_shouldReturnJobNumber_whenDaoCreatesJob() throws SQLException, DatabaseConnectionException, JobRoleTooLongException, ResponsibilitiesTooLongException, SpecificationsTooLongException, BandValueTooLongException, InvalidJobException {
         int jobNo1 = 1;
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(JobDao.createJob(jobRequest, conn)).thenReturn(jobNo1);
+        Mockito.when(jobDao.createJob(jobRequest, conn)).thenReturn(jobNo1);
 
         int result = jobService.createJob(jobRequest);
 
@@ -44,7 +46,7 @@ public class JobServiceTest {
     @Test
     public void createJob_shouldThrowSQLException_whenDaoThrowsSQLException() throws SQLException, DatabaseConnectionException {
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(JobDao.createJob(jobRequest, conn)).thenThrow(SQLException.class);
+        Mockito.when(jobDao.createJob(jobRequest, conn)).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
                 () -> jobService.createJob(jobRequest));

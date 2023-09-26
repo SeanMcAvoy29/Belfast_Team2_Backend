@@ -10,9 +10,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
 import org.kainos.ea.cli.JobRequest;
+import org.kainos.ea.client.InvalidJobException;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class JobIntegrationTest {
@@ -25,11 +27,12 @@ public class JobIntegrationTest {
     @Test
     public void createJobRole_shouldReturnIdOfJobRole() {
         JobRequest jobRequest = new JobRequest(
-                8,
                 "Test",
+                1,
                 "test",
-                "test",
-                "Test"
+                "Test",
+                "Test",
+                2
         );
         int id = APP.client().target("http://localhost:8080/api/job")
                 .request()
@@ -37,5 +40,23 @@ public class JobIntegrationTest {
                 .readEntity(Integer.class);
 
         Assertions.assertNotNull(id);
+    }
+
+    @Test
+    public void createJobRole_shouldReturn400_whenInvalidData() {
+        JobRequest jobRequest = new JobRequest(
+                "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+                1,
+                "test",
+                "Test",
+                "Test",
+                2
+        );
+
+        Response response = APP.client().target("http://localhost:8080/api/job")
+                .request()
+                .post(Entity.entity(jobRequest, MediaType.APPLICATION_JSON_TYPE));
+
+        Assertions.assertEquals(500, response.getStatus());
     }
 }

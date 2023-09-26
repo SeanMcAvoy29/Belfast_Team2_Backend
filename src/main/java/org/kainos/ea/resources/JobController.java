@@ -5,7 +5,6 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
-import org.kainos.ea.core.JobValidator;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobDao;
 
@@ -26,17 +25,14 @@ public class JobController {
     @POST
     @Path("/job")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createJob(JobRequest jobRequest) throws SpecificationsTooLongException, JobRoleTooLongException, ResponsibilitiesTooLongException, BandNameTooLongException {
-        JobValidator jobValidator = new JobValidator();
-        if (jobValidator.isValidJob(jobRequest)) {
+    public Response createJob(JobRequest jobRequest) throws SpecificationsTooLongException, JobRoleTooLongException, ResponsibilitiesTooLongException, BandIDDoesNotExistException {
             try {
                 int idJob = jobService.createJob(jobRequest);
                 return Response.status(HttpStatus.CREATED_201).entity(idJob).build();
-            } catch (Exception | DatabaseConnectionException e) {
+            } catch (SQLException | DatabaseConnectionException e) {
                 return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
+            } catch (InvalidJobException e) {
+                throw new RuntimeException(e);
             }
-        } else {
-            return Response.status(HttpStatus.BAD_REQUEST_400).build();
-        }
     }
-}
+        }

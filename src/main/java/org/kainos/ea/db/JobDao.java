@@ -11,13 +11,15 @@ import java.sql.Statement;
     public class JobDao {
 
         public int createJob(JobRequest job, Connection connector) throws SQLException {
-            String insertStatement = "INSERT INTO JobRole (JobRoleName, Band, Responsibilities, Specification) VALUES (?,?,?,?);";
+            String insertStatement = "INSERT INTO JobRoles (JobRoleName, BandID, JobSpecification, CapabilityID, Responsibilities, SharePointLink) VALUES (?,?,?,?,?,?);";
             PreparedStatement st = connector.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, job.getJobRole());
-            st.setString(2, job.getBand());
-            st.setString(3, job.getSpecifications());
-            st.setString(4, job.getResponsibilities());
+            st.setInt(2, job.getBandID());
+            st.setString(3, job.getJobSpecification());
+            st.setInt(4, job.getCapabilityID());
+            st.setString(5, job.getResponsibilities());
+            st.setString(6, job.getSharePointLink());
 
             int affectedRows = st.executeUpdate();
 
@@ -25,14 +27,14 @@ import java.sql.Statement;
                 throw new SQLException("Creating user failed, no rows affected.");
             }
 
-            int jobNo = 0;
+            int jobID = 0;
 
             try (ResultSet rs = st.getGeneratedKeys()) {
                 if (rs.next()) {
-                    jobNo = rs.getInt(1);
+                    jobID = rs.getInt(1);
                 }
             }
 
-            return jobNo;
+            return jobID;
         }
 }

@@ -4,19 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JobRequest {
-    private int jobID;
     private String jobRole;
-    private String band;
-    private String specifications;
+    private int bandID;
+    private int capabilityID;
+    private String jobSpecification;
     private String responsibilities;
+    private String sharePointLink;
 
-    public int getJobID() {
-        return jobID;
+    public String getSharePointLink() {
+        return sharePointLink;
     }
 
-    public void setJobID(int jobID) {
-        this.jobID = jobID;
-    }
+    public void setSharePointLink(String sharePointLink) { this.sharePointLink = sharePointLink; }
+
+    public int getCapabilityID() { return capabilityID; }
+
+    public void setCapabilityID(int capabilityID) { this.capabilityID = capabilityID; }
 
     public String getJobRole() {
         return jobRole;
@@ -26,20 +29,20 @@ public class JobRequest {
         this.jobRole = jobRole;
     }
 
-    public String getBand() {
-        return band;
+    public int getBandID() {
+        return bandID;
     }
 
-    public void setBand(String band) {
-        this.band = band;
+    public void setBandID(int bandID) {
+        this.bandID = bandID;
     }
 
-    public String getSpecifications() {
-        return specifications;
+    public String getJobSpecification() {
+        return jobSpecification;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications;
+    public void setJobSpecification(String jobSpecification) {
+        this.jobSpecification = jobSpecification;
     }
 
     public String getResponsibilities() {
@@ -51,15 +54,18 @@ public class JobRequest {
     }
     @JsonCreator
     public JobRequest(
-            @JsonProperty("jobID") int jobID,
             @JsonProperty("jobRole") String jobRole,
-            @JsonProperty("band") String band,
-            @JsonProperty("specifications") String specifications,
-            @JsonProperty("responsibilities") String responsibilities) {
-        this.jobID = jobID;
+            @JsonProperty("bandID") int bandID,
+            @JsonProperty("JobSpecifications") String JobSpecifications,
+            @JsonProperty("responsibilities") String responsibilities,
+            @JsonProperty("SharePointLink") String sharePointLink,
+            @JsonProperty("capabilityID") int capabilityID)
+    {
         this.jobRole = jobRole;
-        this.band = band;
-        this.specifications = specifications;
+        this.bandID = bandID;
+        this.jobSpecification = JobSpecifications;
         this.responsibilities = responsibilities;
+        this.sharePointLink = sharePointLink;
+        this.capabilityID = capabilityID;
     }
 }
