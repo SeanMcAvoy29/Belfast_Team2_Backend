@@ -3,7 +3,7 @@ package org.kainos.ea.service;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.api.JobSpecService;
-import org.kainos.ea.cli.JobSpecRequest;
+import org.kainos.ea.cli.JobSpecResponse;
 import org.kainos.ea.client.JobDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,13 +47,19 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpec_shouldReturnJobSpec_whenDaoReturnsJobSpec () throws SQLException, JobDoesNotExistException {
 
-        JobSpecRequest expectResult = new JobSpecRequest("Test - Job Role","Test - Job Spec","https://Linktest.com");
+        List<String> responsibilities = new ArrayList<>();
+        responsibilities.add("Coding");
+        responsibilities.add("Testing");
+        responsibilities.add("Git");
+
+        JobSpecResponse expectResult = new JobSpecResponse("Test - Job Role","Test - Job Spec",responsibilities,"https://Linktest.com");
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
         Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
 
-        JobSpecRequest result = jobSpecService.getJobSpecById(1);
+        JobSpecResponse result = jobSpecService.getJobSpecById(1);
         assertEquals(expectResult.getJobRole(), result.getJobRole());
         assertEquals(expectResult.getSpecifications(), result.getSpecifications());
         assertEquals(expectResult.getSharePointLink(), result.getSharePointLink());
+        assertEquals(expectResult.getResponsibilities(), result.getResponsibilities());
     }
 }

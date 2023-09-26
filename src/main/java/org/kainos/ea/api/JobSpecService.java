@@ -1,6 +1,6 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.JobSpecRequest;
+import org.kainos.ea.cli.JobSpecResponse;
 import org.kainos.ea.client.JobDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
@@ -17,9 +17,9 @@ public class JobSpecService {
     }
 
 
-    public JobSpecRequest getJobSpecById(int id) throws SQLException, JobDoesNotExistException {
+    public JobSpecResponse getJobSpecById(int id) throws SQLException, JobDoesNotExistException {
 
-        JobSpecRequest jobSpec = jobspecDAO.getJobSpecById(id,connector.getConnection());
+        JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector.getConnection());
 
         if (jobSpec == null){
             throw new JobDoesNotExistException();

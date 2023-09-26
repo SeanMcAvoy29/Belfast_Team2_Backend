@@ -11,4 +11,31 @@ Health Check
 ---
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
+
 # Team2_Belfast_Backend
+
+Config
+---
+1. The following environment variables need to be set to enable database connection:
+```
+user
+password
+host
+name
+```
+- user = is your username
+- password = is your account password
+- host = is the DB Host IP/String
+- name = is the name of the database
+
+Swagger
+---
+
+To see your applications Swagger UI `http://localhost:8080/swagger#`
+
+Tests
+---
+
+1. Run `mvn clean test` to run unit tests
+2. Run `mvn clean integration-test` to run integration tests (this may require VPN for database access)
+
