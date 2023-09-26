@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
 import org.kainos.ea.cli.JobRequest;
-import org.kainos.ea.client.InvalidJobException;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
@@ -57,6 +56,6 @@ public class JobIntegrationTest {
                 .request()
                 .post(Entity.entity(jobRequest, MediaType.APPLICATION_JSON_TYPE));
 
-        Assertions.assertEquals(500, response.getStatus());
+        Assertions.assertEquals(400, response.getStatus());
     }
 }

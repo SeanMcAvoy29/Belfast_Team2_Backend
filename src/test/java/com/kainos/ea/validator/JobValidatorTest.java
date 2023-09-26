@@ -1,19 +1,19 @@
 package com.kainos.ea.validator;
 
+import org.eclipse.jetty.server.Authentication;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
 import org.kainos.ea.core.JobValidator;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JobValidatorTest {
 
         JobValidator jobValidator = new JobValidator();
 
         @Test
-        public void isValidEmployee_shouldReturnTrue_whenValidEmployee() throws SpecificationsTooLongException, JobRoleTooLongException, ResponsibilitiesTooLongException, BandValueTooLongException, InvalidJobException {
+        public void isValidEmployee_shouldReturnTrue_whenValidEmployee() {
             JobRequest jobRequest = new JobRequest(
                     "Admin",
                     1,
@@ -37,23 +37,21 @@ public class JobValidatorTest {
                     2
             );
 
-            assertThrows(JobRoleTooLongException.class,
-                    () -> jobValidator.isValidJob(jobRequest));
+            assertFalse(jobValidator.isValidJob(jobRequest));
         }
 
         @Test
-        public void isValidJob_shouldThrowBandNameTooLongException_whenBandNameOver100Characters() {
+        public void isValidJob_shouldThrowInvalidBandException_whenInvalidBand() {
             JobRequest jobRequest = new JobRequest(
                     "Admin",
-                    100000,
+                    -1,
                     "Placement Employee",
                     "Coding",
                     "Test",
                     2
             );
 
-            assertThrows(BandValueTooLongException.class,
-                    () -> jobValidator.isValidJob(jobRequest));
+            assertFalse(jobValidator.isValidJob(jobRequest));
         }
 
         @Test
@@ -67,8 +65,8 @@ public class JobValidatorTest {
                     2
             );
 
-            assertThrows(SpecificationsTooLongException.class,
-                    () -> jobValidator.isValidJob(jobRequest));
+            assertFalse(jobValidator.isValidJob(jobRequest));
+
         }
 
         @Test
@@ -82,8 +80,7 @@ public class JobValidatorTest {
                     3
             );
 
-            assertThrows(ResponsibilitiesTooLongException.class,
-                    () -> jobValidator.isValidJob(jobRequest));
+            assertFalse(jobValidator.isValidJob(jobRequest));
         }
 
     }

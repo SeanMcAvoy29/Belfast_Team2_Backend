@@ -5,6 +5,7 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.kainos.ea.api.JobService;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.client.*;
+import org.kainos.ea.core.JobValidator;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobDao;
 
@@ -17,22 +18,23 @@ import java.sql.SQLException;
 @Path("/api")
 public class JobController {
     private static JobService jobService;
+
     public JobController() {
         DatabaseConnector connector = new DatabaseConnector();
-        jobService = new JobService(new JobDao(), connector);
+        jobService = new JobService(new JobDao(), connector, new JobValidator());
     }
 
     @POST
     @Path("/job")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createJob(JobRequest jobRequest) throws SpecificationsTooLongException, JobRoleTooLongException, ResponsibilitiesTooLongException, BandIDDoesNotExistException {
-            try {
-                int idJob = jobService.createJob(jobRequest);
-                return Response.status(HttpStatus.CREATED_201).entity(idJob).build();
-            } catch (SQLException | DatabaseConnectionException e) {
-                return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
-            } catch (InvalidJobException e) {
-                throw new RuntimeException(e);
-            }
-    }
+    public Response createJob(JobRequest jobRequest) {
+        try {
+            int idJob = jobService.createJob(jobRequest);
+            return Response.status(HttpStatus.CREATED_201).entity(idJob).build();
+        } catch (SQLException | DatabaseConnectionException e) {
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
+        } catch (FailedToCreateJobException e) {
+            return Response.status(HttpStatus.BAD_REQUEST_400).build();
         }
+    }
+}

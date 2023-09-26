@@ -10,19 +10,20 @@ import java.sql.SQLException;
 
 public class JobService {
     private JobDao jobDao;
-    public DatabaseConnector connector;
+    private DatabaseConnector connector;
+    private JobValidator jobValidator;
 
-    public JobService(JobDao jobDao, DatabaseConnector connector) {
+    public JobService(JobDao jobDao, DatabaseConnector connector, JobValidator jobValidator) {
         this.jobDao = jobDao;
         this.connector = connector;
+        this.jobValidator = jobValidator;
     }
 
-    public int createJob(JobRequest jobRequest) throws SQLException, DatabaseConnectionException, JobRoleTooLongException, ResponsibilitiesTooLongException, SpecificationsTooLongException, BandIDDoesNotExistException, InvalidJobException {
-        JobValidator jobValidator = new JobValidator();
+    public int createJob(JobRequest jobRequest) throws SQLException, DatabaseConnectionException, FailedToCreateJobException {
         if (jobValidator.isValidJob(jobRequest)) {
             return jobDao.createJob(jobRequest, connector.getConnection());
         } else {
-            return -1;
+            throw new FailedToCreateJobException();
         }
 
     }
