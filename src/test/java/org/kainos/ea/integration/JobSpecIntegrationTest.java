@@ -36,7 +36,6 @@ public class JobSpecIntegrationTest {
         Response response = APP.client().target("http://localhost:8080/api/job-specification/1")
                 .request().get();
 
-
         Assertions.assertEquals(200,response.getStatus());
         Assertions.assertEquals(expectedLink,response.readEntity(JobSpecResponse.class).getSharePointLink());
     }
