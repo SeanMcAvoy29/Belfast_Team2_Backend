@@ -27,8 +27,8 @@ public class JobSpecServiceTest {
 
     @Test
     void getJobSpec_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException {
-        Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobSpecById(10,conn)).thenThrow(SQLException.class);
+
+        Mockito.when(jobSpecDAO.getJobSpecById(10,databaseConnector)).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
                 () -> jobSpecService.getJobSpecById(10));
@@ -37,8 +37,7 @@ public class JobSpecServiceTest {
     @Test
     void getJobSpec_shouldReturnJobDoesNotExistException_whenDaoReturnsJobDoesNotExistException () throws SQLException{
         int id = 1;
-        Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(null);
+        Mockito.when(jobSpecDAO.getJobSpecById(1,databaseConnector)).thenReturn(null);
 
         assertThrows(JobDoesNotExistException.class,
                 () -> jobSpecService.getJobSpecById(id));
@@ -53,8 +52,7 @@ public class JobSpecServiceTest {
         responsibilities.add("Git");
 
         JobSpecResponse expectResult = new JobSpecResponse("Test - Job Role","Test - Job Spec",responsibilities,"https://Linktest.com");
-        Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobSpecById(1,conn)).thenReturn(expectResult);
+        Mockito.when(jobSpecDAO.getJobSpecById(1,databaseConnector)).thenReturn(expectResult);
 
         JobSpecResponse result = jobSpecService.getJobSpecById(1);
         assertEquals(expectResult.getJobRole(), result.getJobRole());
