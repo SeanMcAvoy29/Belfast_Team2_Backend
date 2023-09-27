@@ -12,9 +12,9 @@ import java.util.List;
 
 public class JobSpecDAO {
 
-    public JobSpecResponse getJobSpecById(int id, Connection c) throws SQLException {
+    public JobSpecResponse getJobSpecById(int id, DatabaseConnector databaseConnector) throws SQLException {
 
-
+        Connection c = databaseConnector.getConnection();
         String selectStatement = "SELECT JobRoleName, JobSpecification, Responsibilities, SharePointLink FROM JobRoles where JobID = ?;";
 
         PreparedStatement st = c.prepareStatement(selectStatement);

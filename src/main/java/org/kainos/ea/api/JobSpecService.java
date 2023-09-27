@@ -19,7 +19,7 @@ public class JobSpecService {
 
     public JobSpecResponse getJobSpecById(int id) throws SQLException, JobDoesNotExistException {
 
-        JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector.getConnection());
+        JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector);
 
         if (jobSpec == null){
             throw new JobDoesNotExistException();
