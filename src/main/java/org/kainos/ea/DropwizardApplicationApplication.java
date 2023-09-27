@@ -5,14 +5,15 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
+import org.kainos.ea.resources.JobSpecController;
 import org.kainos.ea.resources.AuthController;
-import org.kainos.ea.resources.TestController;
 
 public class DropwizardApplicationApplication extends Application<DropwizardApplicationConfiguration> {
 
     public static void main(final String[] args) throws Exception {
         new DropwizardApplicationApplication().run(args);
     }
+
     @Override
     public String getName() {
         return "DropwizardApplication";
@@ -27,14 +28,12 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
                 return configuration.getSwagger();
             }
         });
-
     }
 
     @Override
     public void run(final DropwizardApplicationConfiguration configuration,
                     final Environment environment) {
-        // TODO: implement application
-        environment.jersey().register(new TestController());
+        environment.jersey().register(new JobSpecController());
         environment.jersey().register(new AuthController());
     }
 

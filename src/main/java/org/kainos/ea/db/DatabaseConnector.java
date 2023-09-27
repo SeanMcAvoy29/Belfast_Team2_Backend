@@ -8,12 +8,9 @@ import java.util.Properties;
 
 public class DatabaseConnector {
     private static Connection conn;
-    private static String user;
-    private static String password;
-    private static String host;
-    private static  String name;
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
+        String user, password, host, name;
 
         if(conn != null && !conn.isClosed()) { return conn; }
 
@@ -26,6 +23,8 @@ public class DatabaseConnector {
             password = props.getProperty("password");
             host = props.getProperty("host");
             name = props.getProperty("name");
+            System.out.println("Host:" + host);
+            System.out.println("Name:" + name);
 
             if(user == null || password == null || host == null || name == null){
                 throw new IllegalArgumentException("Properties file must exist with the correct data inside!");
@@ -35,8 +34,6 @@ public class DatabaseConnector {
             return conn;
         }catch (Exception e){
             System.err.println(e.getMessage());
-        }finally {
-            System.out.println("I will also run");
         }
         return null;
     }
