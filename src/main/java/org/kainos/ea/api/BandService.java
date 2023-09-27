@@ -10,9 +10,9 @@ import java.util.List;
 
 public class BandService {
 
-    private BandDao bandDao = new BandDao();
+    private BandDao bandDao;
 
-    public DatabaseConnector databaseConnector = new DatabaseConnector();
+    public DatabaseConnector databaseConnector;
 
     public BandService(BandDao bandDao, DatabaseConnector databaseConnector) {
         this.bandDao = bandDao;
@@ -20,12 +20,9 @@ public class BandService {
     }
 
     public List<BandResponse> getBands() throws SQLException, FailedToGetBandsException {
-        List<BandResponse> bandResponseList = null;
         try {
-            bandResponseList = bandDao.getBands();
+            return bandDao.getBands();
         } catch (SQLException e) {
             throw new FailedToGetBandsException();
-        }
-        return bandResponseList;
     }
-}
+}}

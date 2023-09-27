@@ -3,6 +3,9 @@ package org.kainos.ea.resources;
 import io.swagger.annotations.Api;
 import org.kainos.ea.api.BandService;
 import org.kainos.ea.client.FailedToGetBandsException;
+import org.kainos.ea.db.BandDao;
+import org.kainos.ea.db.DatabaseConnector;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,7 +16,7 @@ import java.sql.SQLException;
 @Api("Belfast_Team2 API")
 @Path("/api")
 public class BandController {
-    private static BandService bandService;
+    private static BandService bandService = new BandService(new BandDao(), new DatabaseConnector());
 
     @GET
     @Path("/band")
