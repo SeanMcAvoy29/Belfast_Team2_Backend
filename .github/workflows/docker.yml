@@ -26,10 +26,10 @@ jobs:
 
       - name: Build & push the Docker image
         env:
-          DB_PASSWORD: ${{ secrets.password }}
-          DB_USERNAME: ${{ secrets.user }}
-          DB_HOST: ${{ secrets.host }}
-          DB_NAME: ${{ secrets.name }}
+          password: ${{ secrets.password }}
+          user: ${{ secrets.user }}
+          host: ${{ secrets.host }}
+          name: ${{ secrets.name }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: employee_demo
           IMAGE_TAG: belfast-team-2-api
