@@ -9,6 +9,7 @@ import org.kainos.ea.resources.JobSpecController;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.kainos.ea.resources.JobController;
+import org.kainos.ea.resources.BandController;
 
 public class DropwizardApplicationApplication extends Application<DropwizardApplicationConfiguration> {
 
@@ -23,9 +24,10 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
 
     @Override
     public void initialize(final Bootstrap<DropwizardApplicationConfiguration> bootstrap) {
-        bootstrap.addBundle(new SwaggerBundle<DropwizardApplicationConfiguration>() {
+        bootstrap.addBundle(new SwaggerBundle<DropwizardApplicationConfiguration>(){
+
             @Override
-            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DropwizardApplicationConfiguration configuration) {
+            protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(DropwizardApplicationConfiguration configuration){
                 return configuration.getSwagger();
             }
         });
@@ -36,6 +38,8 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
                     final Environment environment) {
         environment.jersey().register(new JobController());
         environment.jersey().register(new JobSpecController());
+        environment.jersey().register(new BandController());
+
     }
 
 }
