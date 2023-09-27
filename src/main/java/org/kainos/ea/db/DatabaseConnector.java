@@ -1,10 +1,5 @@
 package org.kainos.ea.db;
 
-<<<<<<< HEAD
-=======
-import org.kainos.ea.client.DatabaseConnectionException;
-
->>>>>>> US-Unit-Testing
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,13 +9,15 @@ import java.util.Properties;
 public class DatabaseConnector {
     private static Connection conn;
 
-    public Connection getConnection() throws SQLException, DatabaseConnectionException {
+    public Connection getConnection() throws SQLException {
 
         String user, password, host, name;
 
-        if(conn != null && !conn.isClosed()) { return conn; }
+        if (conn != null && !conn.isClosed()) {
+            return conn;
+        }
 
-        try(FileInputStream propsStream = new FileInputStream("db.properties");){
+        try (FileInputStream propsStream = new FileInputStream("db.properties")) {
 
             Properties props = new Properties();
 
@@ -31,22 +28,22 @@ public class DatabaseConnector {
             host = props.getProperty("host");
             name = props.getProperty("name");
 
-            if(user == null || password == null || host == null || name == null){
+            if (user == null || password == null || host == null || name == null) {
                 throw new IllegalArgumentException("Properties file must exist with the correct data inside!");
             }
 
-            conn = DriverManager.getConnection("jdbc:mysql://"+ host +"/"+ name +"?useSSL=false", user, password);
+            conn = DriverManager.getConnection("jdbc:mysql://" + host + "/" + name + "?useSSL=false", user, password);
             return conn;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
-<<<<<<< HEAD
+
         }
         return null;
     }
 
-=======
-            throw new DatabaseConnectionException();
-        }
-    }
->>>>>>> US-Unit-Testing
 }
+
+
+
+
+

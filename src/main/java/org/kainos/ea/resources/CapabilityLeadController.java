@@ -1,9 +1,10 @@
 package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
+import org.eclipse.jetty.http.HttpStatus;
 import org.kainos.ea.api.CapabilityLeadService;
-import org.kainos.ea.client.CapabilityLeadDoesNotExistException;
-import org.kainos.ea.client.FailedToGetCapabilityLeadException;
+import org.kainos.ea.client.DatabaseConnectionException;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 @Api("Belfast_Team2 API")
 @Path("/api")
@@ -22,12 +24,8 @@ public class CapabilityLeadController {
     public Response getCapabilityLeadInfo(@PathParam("id")int id){
         try {
             return Response.ok(capabilityLeadService.getCapabilityLeadByCapabilityId(id)).build();
-        } catch(FailedToGetCapabilityLeadException e){
-            System.err.println(e.getMessage());
-            return Response.status(Response.Status.NOT_FOUND).build();
-        } catch (CapabilityLeadDoesNotExistException e){
-            System.err.println(e.getMessage());
-            return Response.status(Response.Status.BAD_REQUEST).build();
+        } catch (DatabaseConnectionException | SQLException e) {
+            return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
         }
     }
 }
