@@ -2,7 +2,7 @@ package org.kainos.ea.api;
 
 import org.kainos.ea.cli.JobSpecResponse;
 import org.kainos.ea.client.DatabaseConnectionException;
-import org.kainos.ea.client.JobDoesNotExistException;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
 
@@ -18,12 +18,12 @@ public class JobSpecService {
     }
 
 
-    public JobSpecResponse getJobSpecById(int id) throws SQLException, JobDoesNotExistException, DatabaseConnectionException {
+    public JobSpecResponse getJobSpecById(int id) throws SQLException, JobRoleDoesNotExistException, DatabaseConnectionException {
 
         JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector.getConnection());
 
         if (jobSpec == null){
-            throw new JobDoesNotExistException();
+            throw new JobRoleDoesNotExistException();
         }
         return jobSpec;
     }

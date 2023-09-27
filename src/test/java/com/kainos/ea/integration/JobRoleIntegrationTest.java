@@ -12,7 +12,7 @@ import org.kainos.ea.DropwizardApplicationConfiguration;
 import java.util.List;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
-public class JobIntegrationTest {
+public class JobRoleIntegrationTest {
 
     static final DropwizardAppExtension<DropwizardApplicationConfiguration> APP = new DropwizardAppExtension<>(
             DropwizardApplicationApplication.class, null,

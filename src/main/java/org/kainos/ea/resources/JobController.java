@@ -2,10 +2,11 @@ package org.kainos.ea.resources;
 
 import io.swagger.annotations.Api;
 import org.eclipse.jetty.http.HttpStatus;
-import org.kainos.ea.api.JobService;
+import org.kainos.ea.api.JobRoleService;
 import org.kainos.ea.client.DatabaseConnectionException;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
-import org.kainos.ea.db.JobDao;
+import org.kainos.ea.db.JobRoleDao;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,11 +18,11 @@ import java.sql.SQLException;
 @Api("Belfast_Team2 API")
 @Path("/api")
 public class JobController {
-    private static JobService jobService;
+    private static JobRoleService jobService;
 
     public JobController() {
         DatabaseConnector connector = new DatabaseConnector();
-        jobService = new JobService(new JobDao(), connector);
+        jobService = new JobRoleService(new JobRoleDao(), connector);
     }
     @GET
     @Path("/job-roles")
@@ -29,7 +30,7 @@ public class JobController {
     public Response getJobRoles() {
         try {
             return Response.ok(jobService.getAllJobRoles()).build();
-        } catch (SQLException | DatabaseConnectionException e) {
+        } catch (SQLException | DatabaseConnectionException | JobRoleDoesNotExistException e) {
             return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
         }
     }
