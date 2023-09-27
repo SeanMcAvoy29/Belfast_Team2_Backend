@@ -13,7 +13,6 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
     public static void main(final String[] args) throws Exception {
         new DropwizardApplicationApplication().run(args);
     }
-
     @Override
     public String getName() {
         return "DropwizardApplication";
