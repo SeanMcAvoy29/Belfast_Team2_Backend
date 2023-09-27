@@ -110,7 +110,6 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.smoketurner</groupId>
@@ -127,12 +126,6 @@
             <groupId>com.password4j</groupId>
             <artifactId>password4j</artifactId>
             <version>1.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.3.7.Final</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

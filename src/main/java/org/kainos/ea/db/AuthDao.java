@@ -2,18 +2,12 @@ package org.kainos.ea.db;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
-import org.apache.commons.lang3.time.DateUtils;
-import org.kainos.ea.cli.Login;
 import org.kainos.ea.cli.Role;
-import org.kainos.ea.client.FailedToRegisterException;
-
 import java.security.Key;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
-import java.util.Date;
-import java.util.UUID;
+
 
 public class AuthDao {
 
