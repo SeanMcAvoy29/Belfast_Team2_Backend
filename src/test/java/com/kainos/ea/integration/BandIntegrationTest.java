@@ -1,4 +1,4 @@
-package org.kainos.ea.integration;
+package com.kainos.ea.integration;
 
 import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
-import org.kainos.ea.cli.BandResponse;
+
 import java.util.List;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
@@ -19,10 +19,9 @@ public class BandIntegrationTest {
     );
 
     @Test
-    void getBands_shouldReturnListOfBands() {
-        List<BandResponse> response = APP.client().target("http://localhost:8080/api/band")
-                .request()
-                .get(List.class);
+    void getBands_shouldReturnBandNames() {
+        List response = APP.client().target("http://localhost:8080/api/band-names")
+                .request().get(List.class);
 
         Assertions.assertTrue(response.size() > 0);
     }

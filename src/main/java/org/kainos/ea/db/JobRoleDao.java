@@ -1,4 +1,5 @@
 package org.kainos.ea.db;
+import org.kainos.ea.cli.BandResponse;
 import org.kainos.ea.cli.JobRole;
 import org.kainos.ea.client.DatabaseConnectionException;
 
@@ -40,6 +41,8 @@ public class JobRoleDao {
 
             }
             return jobRolesList;
+
+
         }
         catch (Exception e){
 
@@ -47,6 +50,7 @@ public class JobRoleDao {
         } catch (DatabaseConnectionException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 }

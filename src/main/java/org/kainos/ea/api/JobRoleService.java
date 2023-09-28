@@ -19,13 +19,10 @@ public class JobRoleService {
         this.databaseConnector = databaseConnector;
     }
     public List<JobRole> getAllJobRoles() throws DatabaseConnectionException, SQLException, JobRoleDoesNotExistException {
-        List<JobRole> jobRolesList = null;
         try {
-            jobRolesList = jobRoleDao.getAllJobRoles();
+           return jobRoleDao.getAllJobRoles();
         } catch (SQLException e) {
             throw new JobRoleDoesNotExistException();
         }
-        return jobRolesList;
-
     }
 }

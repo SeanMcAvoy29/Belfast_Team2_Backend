@@ -27,5 +27,5 @@ public class JobRoleIntegrationTest {
         Assertions.assertTrue(response.size() > 0);
     }
 
-    }
+}
 

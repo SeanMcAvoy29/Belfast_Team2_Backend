@@ -1,4 +1,4 @@
-package org.kainos.ea.service;
+package com.kainos.ea.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
