@@ -28,7 +28,7 @@ public class AuthService {
             throw new FailedToLoginException(validationError);
         }
 
-        String storedHashedPassword = authDao.getHashedPassword(login.getEmail());
+       String storedHashedPassword = authDao.getHashedPassword(login.getEmail());
 
         if(verifyPassword(login.getPassword(), storedHashedPassword)) {
             return authDao.generateJwtToken((login.getEmail()));
