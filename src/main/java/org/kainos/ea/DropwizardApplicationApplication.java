@@ -8,6 +8,8 @@ import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.kainos.ea.resources.CapabilityLeadController;
 import org.kainos.ea.resources.JobSpecController;
 import org.kainos.ea.resources.JobController;
+import org.kainos.ea.resources.AuthController;
+
 
 public class DropwizardApplicationApplication extends Application<DropwizardApplicationConfiguration> {
     public static void main(final String[] args) throws Exception {
@@ -36,6 +38,7 @@ public class DropwizardApplicationApplication extends Application<DropwizardAppl
         environment.jersey().register(new JobController());
         environment.jersey().register(new JobSpecController());
         environment.jersey().register(new CapabilityLeadController());
+        environment.jersey().register(new AuthController());
     }
 
 }
