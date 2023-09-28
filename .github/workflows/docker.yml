@@ -34,5 +34,5 @@ jobs:
           ECR_REPOSITORY: employee_demo
           IMAGE_TAG: belfast-team-2-api
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build --build-arg PASSWORD=${PASSWORD} --build-arg USER=${USER} --build-arg HOST=${HOST} --build-arg NAME=${NAME} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
