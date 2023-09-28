@@ -13,10 +13,10 @@ public class DatabaseConnector {
         if(conn != null && !conn.isClosed()) { return conn; }
 
         try {
-            user = System.getenv("USER");
-            password = System.getenv("PASSWORD");
-            host = System.getenv("HOST");
-            name = System.getenv("NAME");
+            user = System.getenv("DB_USER");
+            password = System.getenv("DB_PASSWORD");
+            host = System.getenv("DB_HOST");
+            name = System.getenv("DB_NAME");
             System.out.println("Host:" + host);
             System.out.println("Name:" + name);
 
