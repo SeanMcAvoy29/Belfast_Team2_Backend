@@ -1,6 +1,6 @@
 package org.kainos.ea.api;
 
-import org.kainos.ea.cli.CapabilityLeadRequest;
+import org.kainos.ea.cli.CapabilityLead;
 import org.kainos.ea.client.CapabilityLeadDoesNotExistException;
 import org.kainos.ea.client.DatabaseConnectionException;
 import org.kainos.ea.db.CapabilityLeadDAO;
@@ -17,10 +17,10 @@ public class CapabilityLeadService {
     }
 
 
-    public CapabilityLeadRequest getCapabilityLeadByCapabilityId(int id) throws DatabaseConnectionException, SQLException, CapabilityLeadDoesNotExistException {
+    public CapabilityLead getCapabilityLeadByCapabilityId(int id) throws DatabaseConnectionException, SQLException, CapabilityLeadDoesNotExistException {
 
         try {
-            CapabilityLeadRequest capabilityLeadRequest = capabilityleadDAO.getCapabilityLeadByCapabilityId(id);
+            CapabilityLead capabilityLeadRequest = capabilityleadDAO.getCapabilityLeadByCapabilityId(id);
 
             if (capabilityLeadRequest == null) {
                 throw new CapabilityLeadDoesNotExistException();

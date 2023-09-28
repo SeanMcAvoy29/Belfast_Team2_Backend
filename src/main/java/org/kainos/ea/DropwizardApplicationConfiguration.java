@@ -19,7 +19,3 @@ public class DropwizardApplicationConfiguration extends Configuration {
         return swagger;
     }
 }
-
-
-
-

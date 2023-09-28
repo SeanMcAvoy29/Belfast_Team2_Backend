@@ -1,4 +1,4 @@
-package com.kainos.ea.integration;
+package org.kainos.ea.integration;
 
 import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;

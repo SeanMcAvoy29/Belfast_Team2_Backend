@@ -1,9 +1,9 @@
-package com.kainos.ea.service;
+package org.kainos.ea.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.CapabilityLeadService;
-import org.kainos.ea.cli.CapabilityLeadRequest;
+import org.kainos.ea.cli.CapabilityLead;
 import org.kainos.ea.client.CapabilityLeadDoesNotExistException;
 import org.kainos.ea.client.DatabaseConnectionException;
 import org.kainos.ea.db.CapabilityLeadDAO;
@@ -39,11 +39,11 @@ class CapabilityLeadServiceTest {
 
     @Test
     void getCapabilityLead_shouldReturnCapabilityLead_whenDaoReturnsName() throws DatabaseConnectionException, SQLException, CapabilityLeadDoesNotExistException {
-        CapabilityLeadRequest expectedCapabilityLead = new CapabilityLeadRequest("Engineering", "Patrick Jones", "Hello, this is a test message!", "https://media.istockphoto.com/id/1314997483/photo/portrait-of-a-confident-mature-businessman-working-in-a-modern-office.jpg?s=1024x1024&w=is&k=20&c=dXDaMTcP9kERe6F6xcISpHM0rDhEceKwHd-Dq08v6VE=");
+        CapabilityLead expectedCapabilityLead = new CapabilityLead("Engineering", "Patrick Jones", "Hello, this is a test message!", "https://media.istockphoto.com/id/1314997483/photo/portrait-of-a-confident-mature-businessman-working-in-a-modern-office.jpg?s=1024x1024&w=is&k=20&c=dXDaMTcP9kERe6F6xcISpHM0rDhEceKwHd-Dq08v6VE=");
         Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
         Mockito.when(capabilityLeadDao.getCapabilityLeadByCapabilityId(1)).thenReturn(expectedCapabilityLead);
 
-        CapabilityLeadRequest result = capabilityLeadService.getCapabilityLeadByCapabilityId(1);
+        CapabilityLead result = capabilityLeadService.getCapabilityLeadByCapabilityId(1);
 
         assertEquals(result, expectedCapabilityLead);
     }

@@ -1,17 +1,13 @@
 package org.kainos.ea.cli;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class CapabilityLead {
     private String capabilityName;
     private String capabilityLeadName;
     private String capabilityLeadMessage;
     private String capabilityLeadPhotoURL;
-
-    public CapabilityLead(String capabilityName, String capabilityLeadName, String capabilityLeadMessage, String capabilityLeadPhotoURL) {
-        this.capabilityName = capabilityName;
-        this.capabilityLeadName = capabilityLeadName;
-        this.capabilityLeadMessage = capabilityLeadMessage;
-        this.capabilityLeadPhotoURL = capabilityLeadPhotoURL;
-    }
 
     public String getCapabilityName() {
         return capabilityName;
@@ -44,4 +40,18 @@ public class CapabilityLead {
     public void setCapabilityLeadPhotoURL(String capabilityLeadPhotoURL) {
         this.capabilityLeadPhotoURL = capabilityLeadPhotoURL;
     }
+
+    @JsonCreator
+    public CapabilityLead(
+            @JsonProperty("capabilityName") String capabilityName,
+            @JsonProperty("capabilityLeadName") String capabilityLeadName,
+            @JsonProperty("capabilityLeadMessage") String capabilityLeadMessage,
+            @JsonProperty("capabilityLeadPhotoURL") String capabilityLeadPhotoURL)
+    {
+        this.capabilityName = capabilityName;
+        this.capabilityLeadName = capabilityLeadName;
+        this.capabilityLeadMessage = capabilityLeadMessage;
+        this.capabilityLeadPhotoURL = capabilityLeadPhotoURL;
+    }
+
 }

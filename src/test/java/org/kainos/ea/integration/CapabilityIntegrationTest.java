@@ -1,4 +1,4 @@
-package com.kainos.ea.integration;
+package org.kainos.ea.integration;
 
 import io.dropwizard.configuration.ResourceConfigurationSourceProvider;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
-import org.kainos.ea.cli.CapabilityLeadRequest;
+import org.kainos.ea.cli.CapabilityLead;
 import javax.ws.rs.core.Response;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
@@ -26,7 +26,7 @@ public class CapabilityIntegrationTest {
                 .get();
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals("Patrick Jones", response.readEntity(CapabilityLeadRequest.class).getCapabilityLeadName());
+        Assertions.assertEquals("Patrick Jones", response.readEntity(CapabilityLead.class).getCapabilityLeadName());
     }
 
     @Test
@@ -37,9 +37,4 @@ public class CapabilityIntegrationTest {
 
         Assertions.assertEquals(400,response.getStatus());
     }
-
-
-
-
-
 }
