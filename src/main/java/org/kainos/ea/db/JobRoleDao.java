@@ -42,11 +42,7 @@ public class JobRoleDao {
             return jobRolesList;
         }
         catch (Exception e){
-
             throw new SQLException(e);
-        } catch (DatabaseConnectionException e) {
-            throw new RuntimeException(e);
         }
-
     }
 }

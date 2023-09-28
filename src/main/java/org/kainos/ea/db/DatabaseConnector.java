@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class DatabaseConnector {
     private static Connection conn;
 
-    public Connection getConnection() throws SQLException, DatabaseConnectionException {
+    public Connection getConnection() throws SQLException {
         String user, password, host, name;
 
         if(conn != null && !conn.isClosed()) { return conn; }
@@ -29,7 +29,7 @@ public class DatabaseConnector {
             return conn;
         }catch (Exception e){
             System.err.println(e.getMessage());
-            throw new DatabaseConnectionException();
+            throw new SQLException();
         }
 
     }

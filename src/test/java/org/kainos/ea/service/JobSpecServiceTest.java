@@ -28,8 +28,7 @@ public class JobSpecServiceTest {
 
     @Test
     void getJobSpec_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException, DatabaseConnectionException {
-        Mockito.when(databaseConnector.getConnection()).thenReturn(conn);
-        Mockito.when(jobSpecDAO.getJobSpecById(10,conn)).thenThrow(SQLException.class);
+        Mockito.when(jobSpecDAO.getJobSpecById(10,databaseConnector)).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
                 () -> jobSpecService.getJobSpecById(10));
