@@ -17,8 +17,7 @@ public class DatabaseConnector {
             password = System.getenv("DB_PASSWORD");
             host = System.getenv("DB_HOST");
             name = System.getenv("DB_NAME");
-            System.out.println("Host:" + host);
-            System.out.println("Name:" + name);
+
 
             if(user == null || password == null || host == null || name == null){
                 throw new IllegalArgumentException("Environment variables not set");
