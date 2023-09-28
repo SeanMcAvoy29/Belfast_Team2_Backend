@@ -15,7 +15,6 @@ import org.kainos.ea.cli.CapabilityLeadRequest;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @ExtendWith(DropwizardExtensionsSupport.class)
 public class CapabilityIntegrationTest {
@@ -27,34 +26,25 @@ public class CapabilityIntegrationTest {
 
     @Test
     void getCapabilityLead_shouldReturnCapabilityLead() {
-        Response response = APP.client().target("http://localhost:8080/hr/employee/1")
+        Response response = APP.client().target("http://localhost:8080/api/capability-lead-info/1")
                 .request()
                 .get();
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals(1, response.readEntity(CapabilityLead.class).getCapabilityLeadName());
+        Assertions.assertEquals("Patrick Jones", response.readEntity(CapabilityLeadRequest.class).getCapabilityLeadName());
     }
 
     @Test
-    void getEmployee_shouldReturnEmployeesDetails() {
-        CapabilityLeadRequest capabilityLeadRequest = new CapabilityLeadRequest(
-                "Engineering",
-                "Patrick Jones",
-                "Hello, this is a test message",
-                "www.google.com"
-        );
-
-        int id = APP.client().target("http://localhost:8080/api/get-capability-lead")
+    void getCapabilityLead_shouldReturnError400WhenRequestBad() {
+        Response response = APP.client().target("http://localhost:8080/api/capability-lead-info/99999")
                 .request()
-                .post(Entity.entity(capabilityLeadRequest, MediaType.APPLICATION_JSON_TYPE))
-                .readEntity(Integer.class);
+                .get();
 
-        CapabilityLead capabilityLead = APP.client().target("http://localhost:8080/hr/employee" + id)
-                .request()
-                .get()
-                .readEntity(CapabilityLead.class);
-
-        Assertions.assertNotNull(id);
+        Assertions.assertEquals(400,response.getStatus());
     }
+
+
+
+
 
 }
