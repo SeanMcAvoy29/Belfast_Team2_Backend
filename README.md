@@ -20,12 +20,12 @@ Config
 ```
 user
 password
-host
+HOST
 name
 ```
 - user = is your username
 - password = is your account password
-- host = is the DB Host IP/String
+- HOST = is the DB Host IP/String
 - name = is the name of the database
 
 Swagger

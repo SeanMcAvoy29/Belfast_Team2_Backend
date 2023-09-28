@@ -5,17 +5,16 @@ WORKDIR /code
 
 COPY . /code
 
-ARG host
-ARG password
-ARG user
-ARG name
+ARG HOST
+ARG PASSWORD
+ARG USER
+ARG NAME
 
-ENV host ${host}
-ENV password ${password}
-ENV user ${user}
-ENV name ${name}
+ENV HOST ${HOST}
+ENV PASSWORD ${PASSWORD}
+ENV USER ${USER}
+ENV NAME ${NAME}
 
-RUN echo "host: ${host}\nname: ${name}\nuser: ${user}\npassword: ${password}" > db.properties
 RUN mvn clean install -DskipTests=true
 
 EXPOSE 8080
