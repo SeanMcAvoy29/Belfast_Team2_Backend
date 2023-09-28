@@ -1,6 +1,5 @@
 package org.kainos.ea.db;
 
-import org.kainos.ea.cli.Job;
 import org.kainos.ea.cli.JobSpecRequest;
 
 import java.sql.Connection;

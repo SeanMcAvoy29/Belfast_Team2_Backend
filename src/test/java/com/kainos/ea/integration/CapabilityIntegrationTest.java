@@ -9,11 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.DropwizardApplicationApplication;
 import org.kainos.ea.DropwizardApplicationConfiguration;
-import org.kainos.ea.cli.CapabilityLead;
 import org.kainos.ea.cli.CapabilityLeadRequest;
-
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @ExtendWith(DropwizardExtensionsSupport.class)

@@ -6,8 +6,6 @@ import org.kainos.ea.core.JobValidator;
 import org.kainos.ea.cli.JobRequest;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.jobDao;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
