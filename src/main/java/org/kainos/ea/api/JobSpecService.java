@@ -20,7 +20,7 @@ public class JobSpecService {
 
     public JobSpecResponse getJobSpecById(int id) throws SQLException, JobRoleDoesNotExistException, DatabaseConnectionException {
 
-        JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector.getConnection());
+        JobSpecResponse jobSpec = jobspecDAO.getJobSpecById(id,connector);
 
         if (jobSpec == null){
             throw new JobRoleDoesNotExistException();

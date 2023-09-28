@@ -22,21 +22,19 @@ public class JobSpecIntegrationTest {
 
     @Test
     void getJobSpec_shouldReturnJobSpec(){
-        String expectedLink = "https://kainos.wd3.myworkdayjobs.com/en-US/Kainos/job/Graduate-Data-Analyst--Belfast----Summer--Autumn-2024-Start_JR_13436";
         Response response = APP.client().target("http://localhost:8080/api/job-specification/1")
                 .request().get();
 
 
         Assertions.assertEquals(200,response.getStatus());
-        Assertions.assertEquals("Job Role Name",response.readEntity(JobSpecResponse.class).getJobRole());
+        Assertions.assertEquals("Apprentice Software Engineer",response.readEntity(JobSpecResponse.class).getJobRole());
     }
 
     @Test
     void getJobSpec_shouldReturnJobSpecLinkInSpec(){
-        String expectedLink = "https://kainos.wd3.myworkdayjobs.com/en-US/Kainos/job/Graduate-Data-Analyst--Belfast----Summer--Autumn-2024-Start_JR_13436";
+        String expectedLink = "https://kainossoftwareltd.sharepoint.com/:b:/r/people/Job%20Specifications/Engineering/Job%20profile%20-%20Apprentice%20Software%20Engineer%20(Apprentice).pdf?csf=1&web=1&e=0ZopF7";
         Response response = APP.client().target("http://localhost:8080/api/job-specification/1")
                 .request().get();
-
 
         Assertions.assertEquals(200,response.getStatus());
         Assertions.assertEquals(expectedLink,response.readEntity(JobSpecResponse.class).getSharePointLink());

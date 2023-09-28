@@ -12,10 +12,10 @@ import java.util.List;
 
 public class JobSpecDAO {
 
-    public JobSpecResponse getJobSpecById(int id, Connection c) throws SQLException {
+    public JobSpecResponse getJobSpecById(int id, DatabaseConnector databaseConnector) throws SQLException {
 
-
-        String selectStatement = "SELECT JobRoleName, Specification, Responsibilities, SharePointLink FROM JobRole where JobID = ?;";
+        Connection c = databaseConnector.getConnection();
+        String selectStatement = "SELECT JobRoleName, JobSpecification, Responsibilities, SharePointLink FROM JobRoles where JobID = ?;";
 
         PreparedStatement st = c.prepareStatement(selectStatement);
         st.setInt(1,id);
@@ -28,7 +28,7 @@ public class JobSpecDAO {
            convertedResponsibilitiesList = Arrays.asList(responsibilities.split(",", -1));
             return new JobSpecResponse(
                     rs.getString("JobRoleName"),
-                    rs.getString("Specification"),
+                    rs.getString("JobSpecification"),
                     convertedResponsibilitiesList,
                     rs.getString("SharePointLink")
             );
