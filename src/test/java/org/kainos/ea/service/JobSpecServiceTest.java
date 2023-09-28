@@ -4,7 +4,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.api.JobSpecService;
 import org.kainos.ea.cli.JobSpecResponse;
-import org.kainos.ea.client.JobDoesNotExistException;
+import org.kainos.ea.client.DatabaseConnectionException;
+import org.kainos.ea.client.JobRoleDoesNotExistException;
 import org.kainos.ea.db.DatabaseConnector;
 import org.kainos.ea.db.JobSpecDAO;
 import org.mockito.Mockito;
@@ -26,8 +27,7 @@ public class JobSpecServiceTest {
     Connection conn;
 
     @Test
-    void getJobSpec_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException {
-
+    void getJobSpec_shouldThrowSqlException_whenDaoThrowsSqlException() throws SQLException, DatabaseConnectionException {
         Mockito.when(jobSpecDAO.getJobSpecById(10,databaseConnector)).thenThrow(SQLException.class);
 
         assertThrows(SQLException.class,
@@ -35,16 +35,16 @@ public class JobSpecServiceTest {
     }
 
     @Test
-    void getJobSpec_shouldReturnJobDoesNotExistException_whenDaoReturnsJobDoesNotExistException () throws SQLException{
+    void getJobSpec_shouldReturnJobDoesNotExistException_whenDaoReturnsJobDoesNotExistException () throws SQLException, DatabaseConnectionException {
         int id = 1;
         Mockito.when(jobSpecDAO.getJobSpecById(1,databaseConnector)).thenReturn(null);
 
-        assertThrows(JobDoesNotExistException.class,
+        assertThrows(JobRoleDoesNotExistException.class,
                 () -> jobSpecService.getJobSpecById(id));
     }
 
     @Test
-    void getJobSpec_shouldReturnJobSpec_whenDaoReturnsJobSpec () throws SQLException, JobDoesNotExistException {
+    void getJobSpec_shouldReturnJobSpec_whenDaoReturnsJobSpec () throws SQLException, JobRoleDoesNotExistException, DatabaseConnectionException {
 
         List<String> responsibilities = new ArrayList<>();
         responsibilities.add("Coding");
