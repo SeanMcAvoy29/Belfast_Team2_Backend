@@ -34,4 +34,4 @@ public class JobController {
             return Response.status(HttpStatus.INTERNAL_SERVER_ERROR_500).build();
         }
     }
-        }
+}

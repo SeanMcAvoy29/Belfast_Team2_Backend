@@ -235,17 +235,8 @@
             </plugin>
         </plugins>
     </build>
-
     <reporting>
         <plugins>
-            <plugin>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.1.2</version>
-                <configuration>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                </configuration>
-            </plugin>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.0</version>
@@ -259,10 +250,6 @@
                 <jdk>[11,)</jdk>
             </activation>
             <properties>
-                <!--
-                Workaround for "javadoc: error - The code being documented uses modules but the packages
-                defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module."
-                -->
                 <maven.javadoc.skip>true</maven.javadoc.skip>
             </properties>
         </profile>

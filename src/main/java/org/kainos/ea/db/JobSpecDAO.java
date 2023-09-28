@@ -1,7 +1,6 @@
 package org.kainos.ea.db;
 
 import org.kainos.ea.cli.JobSpecResponse;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
