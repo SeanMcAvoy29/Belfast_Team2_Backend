@@ -15,7 +15,7 @@ ENV password ${password}
 ENV user ${user}
 ENV name ${name}
 
-RUN echo "host: ${host}\name: ${name}\user: ${user}\password: ${password}" > db.properties
+RUN echo "host: ${host}\nname: ${name}\nuser: ${user}\npassword: ${password}" > db.properties
 RUN mvn clean install -DskipTests=true
 
 EXPOSE 8080
