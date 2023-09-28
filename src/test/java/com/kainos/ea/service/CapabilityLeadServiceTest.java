@@ -3,7 +3,6 @@ package com.kainos.ea.service;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kainos.ea.api.CapabilityLeadService;
-import org.kainos.ea.cli.CapabilityLead;
 import org.kainos.ea.cli.CapabilityLeadRequest;
 import org.kainos.ea.client.CapabilityLeadDoesNotExistException;
 import org.kainos.ea.client.DatabaseConnectionException;
