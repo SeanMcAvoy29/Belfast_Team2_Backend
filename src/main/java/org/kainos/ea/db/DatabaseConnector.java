@@ -27,6 +27,8 @@ public class DatabaseConnector {
             password = props.getProperty("password");
             host = props.getProperty("host");
             name = props.getProperty("name");
+            System.out.println("Host:" + host);
+            System.out.println("Name:" + name);
 
             if (user == null || password == null || host == null || name == null) {
                 throw new IllegalArgumentException("Properties file must exist with the correct data inside!");
