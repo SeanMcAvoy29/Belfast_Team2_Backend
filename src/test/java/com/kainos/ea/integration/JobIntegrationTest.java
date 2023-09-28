@@ -33,7 +33,7 @@ public class JobIntegrationTest {
                 "Test",
                 2
         );
-        int id = APP.client().target("http://localhost:8080/api/job")
+        int id = APP.client().target("http://localhost:8080/api/create-job-roles")
                 .request()
                 .post(Entity.entity(jobRequest, MediaType.APPLICATION_JSON_TYPE))
                 .readEntity(Integer.class);
@@ -52,7 +52,7 @@ public class JobIntegrationTest {
                 2
         );
 
-        Response response = APP.client().target("http://localhost:8080/api/job")
+        Response response = APP.client().target("http://localhost:8080/api/create-job-roles")
                 .request()
                 .post(Entity.entity(jobRequest, MediaType.APPLICATION_JSON_TYPE));
 

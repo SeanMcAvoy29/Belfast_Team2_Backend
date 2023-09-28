@@ -25,7 +25,7 @@ public class JobController {
     }
 
     @POST
-    @Path("/job")
+    @Path("/create-job-roles")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createJob(JobRequest jobRequest) {
         try {
