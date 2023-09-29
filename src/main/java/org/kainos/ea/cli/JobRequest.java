@@ -54,12 +54,12 @@ public class JobRequest {
     }
     @JsonCreator
     public JobRequest(
-            @JsonProperty("jobRole") String jobRole,
-            @JsonProperty("bandID") int bandID,
-            @JsonProperty("JobSpecifications") String JobSpecifications,
+            @JsonProperty("jobRoleName") String jobRole,
+            @JsonProperty("Band") int bandID,
+            @JsonProperty("jobSpecification") String JobSpecifications,
             @JsonProperty("responsibilities") String responsibilities,
-            @JsonProperty("SharePointLink") String sharePointLink,
-            @JsonProperty("capabilityID") int capabilityID)
+            @JsonProperty("sharePointLink") String sharePointLink,
+            @JsonProperty("Capability") int capabilityID)
     {
         this.jobRole = jobRole;
         this.bandID = bandID;

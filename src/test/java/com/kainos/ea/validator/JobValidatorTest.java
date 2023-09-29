@@ -1,9 +1,7 @@
 package com.kainos.ea.validator;
 
-import org.eclipse.jetty.server.Authentication;
 import org.junit.jupiter.api.Test;
 import org.kainos.ea.cli.JobRequest;
-import org.kainos.ea.client.*;
 import org.kainos.ea.core.JobValidator;
 
 import static org.junit.jupiter.api.Assertions.*;
